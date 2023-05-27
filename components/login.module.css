@@ -1,0 +1,11 @@
+.mainDiv{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center; /* Vertically center */
+    
+}
+.mainDiv.TextField{
+    margin-top: 20px;
+}

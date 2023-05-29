@@ -5,9 +5,9 @@ import styles from './login.module.css'
 import Image from 'next/image';
 import { display } from '@material-ui/system';
 import { ThemeProvider } from '@emotion/react';
-import SongCard from './SongCard.js'
+import UserProfileCard from './UserProfileCard.js'
 import SearchIcon from '@mui/icons-material/Search';
-function Home() {
+function Users() {
   let songsList =[5,8,6,7,8,5,8,6,7,8,5]
 
 
@@ -27,7 +27,7 @@ function Home() {
     <div style={{display:"flex" ,justifyContent:'center' ,marginTop:"10vh" }}>
     <div style={{width:"600px",display:'flex',alignItems:'center' ,flexDirection:'column', justifyContent:'center' }}>    
   <TextField
-      label="Search Songs"
+      label="Search User"
       fullWidth
       InputProps={{
         endAdornment: (
@@ -43,17 +43,13 @@ function Home() {
   </div>
 
  <Container >
-  <div style={{display:"flex", justifyContent:"flex-end"}}>
-  <Button   variant="contained" style={buttonStyle}  >
-      Add Song
-  </Button>
-  </div>
+ 
  
 
   <Grid container  spacing={1}  >
         {songsList.map((data) => (
           <Grid mt="50px" item xs={12} sm={4} md={3} lg={3} key={data}>
-            <SongCard   />
+            <UserProfileCard   />
           </Grid>
         ))}
       </Grid>
@@ -63,4 +59,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Users

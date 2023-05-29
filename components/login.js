@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { display } from '@material-ui/system';
 import { ThemeProvider } from '@emotion/react';
 import React from 'react';
+import { useRouter } from 'next/router';
  
  
 function login() {
+  const router = useRouter();
     const buttonStyle = {
         backgroundImage: 'linear-gradient(to right, #b716d8, #d126b0)',
         color: 'white',
@@ -25,7 +27,7 @@ function login() {
     <TextField style={{marginTop:"15px"}} id="filled-basic" label="Email" fullWidth />
     <TextField style={{marginTop:"10px"}}id="filled-basic" label="Password"  fullWidth/>
     <Button style={{marginRight:"  -246px",marginTop:"20px"}}  variant="text"  >Forgot Password</Button>
-    <Button style={buttonStyle} variant="contained" fullWidth>Login</Button>
+    <Button style={buttonStyle} variant="contained" onClick={()=>{router.push('/home')}} fullWidth>Login</Button>
     
     </div>
 

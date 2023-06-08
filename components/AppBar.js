@@ -22,6 +22,9 @@ function MyAppBar() {
             <Button onClick={()=>{router.push('/users')}} color="inherit">Users</Button>
           </Grid>
           <Grid item>
+            <Button onClick={()=>{router.push('/category')}} color="inherit">Category</Button>
+          </Grid>
+          <Grid item>
             <Button onClick={()=>{router.push('/changePassword')}} color="inherit">Settings</Button>
           </Grid>
         </Grid>

@@ -1,4 +1,4 @@
-import Home from '../components/Home.js'
+import Category from '../components/Category.js'
  import AppBar from '../components/AppBar.js'
 import SecurePage from '@/components/SecurePage.js';
 
@@ -8,7 +8,7 @@ import SecurePage from '@/components/SecurePage.js';
    
     {/* <SecurePage> */}
     <AppBar/>
-    <Home/>
+   <Category/>
     {/* </SecurePage> */}
     
   

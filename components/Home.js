@@ -7,7 +7,16 @@ import { display } from '@material-ui/system';
 import { ThemeProvider } from '@emotion/react';
 import SongCard from './SongCard.js'
 import SearchIcon from '@mui/icons-material/Search';
+import GernalModal from './GernalModal'
+import { useState } from 'react';
 function Home() {
+  const [open, setOpen] =  useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false)
+  
+ 
+  
+
   let songsList =[5,8,6,7,8,5,8,6,7,8,5]
 
 
@@ -23,7 +32,7 @@ function Home() {
        };
   return (
     <>
-    
+    <GernalModal open={open} close={handleClose} type={"song"}/>
     <div style={{display:"flex" ,justifyContent:'center' ,marginTop:"10vh" }}>
     <div style={{width:"600px",display:'flex',alignItems:'center' ,flexDirection:'column', justifyContent:'center' }}>    
   <TextField
@@ -44,7 +53,7 @@ function Home() {
 
  <Container >
   <div style={{display:"flex", justifyContent:"flex-end"}}>
-  <Button   variant="contained" style={buttonStyle}  >
+  <Button onClick={handleOpen}   variant="contained" style={buttonStyle}  >
       Add Song
   </Button>
   </div>

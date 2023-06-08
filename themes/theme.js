@@ -2,6 +2,7 @@ import { createTheme, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 
 const theme = createTheme({
+  
   overrides: {
     
     MuiInputLabel: {
@@ -14,6 +15,9 @@ const theme = createTheme({
     text: {
       primary: '#ffffff', 
     },
+    background: {
+      default: '#000000', // Set the default background color to black
+    }
   },
   typography: {
     fontFamily: 'Arial, sans-serif',
@@ -30,7 +34,18 @@ const theme = createTheme({
           background: 'linear-gradient(to left, #b716d8, #d126b0)'
         },
       },
+      
     },
+
+    MuiAutocomplete: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#0d0b0a', // Set your desired background color here
+        },
+      },
+    },
+ 
+  
     MuiTextField: {
       styleOverrides: {
         root: {

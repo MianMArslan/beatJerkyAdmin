@@ -32,13 +32,17 @@ export default function MultiActionAreaCard() {
           <Typography gutterBottom variant="h5" component="div">
             Lizard
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1"  >
+        Category Title
+             
+          </Typography>
+          <Typography variant="body2"  >
             Lizards are a widespread group of squamate reptiles, with over 6,000
              
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions style={{display: "flex", justifyContent:"center" ,marginTop:"15%"}}>
+      <CardActions style={{display: "flex", justifyContent:"center" ,marginTop:"5%"}}>
         <IconButton >
             <EditNoteIcon  fontSize='large'/>
         </IconButton>

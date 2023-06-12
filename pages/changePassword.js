@@ -1,9 +1,13 @@
 import ChangePassword from '../components/ChangePassword'
 import AppBar from '../components/AppBar.js'
+import SecurePage from '@/components/SecurePage';
  function changePassword(){
     return(<>
-     <AppBar/>
+    <SecurePage>
+    <AppBar/>
     <ChangePassword/>
+    </SecurePage>
+
     
     </>);
 }

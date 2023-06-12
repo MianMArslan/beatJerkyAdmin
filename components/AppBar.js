@@ -5,8 +5,22 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
+// import { destroyCookie } from 'nookies';
+ 
+
+
+
+
 function MyAppBar() {
+
+ 
+
+  
   const router = useRouter();
+  const handleLogout = () => {
+    // destroyCookie(null, 'accessToken'); // Clear the accessToken cookie
+    router.push('/login'); // Redirect to the login page
+  };
   return (
     <AppBar position="static">
       <Toolbar>
@@ -29,7 +43,7 @@ function MyAppBar() {
           </Grid>
         </Grid>
         
-        <Button onClick={()=>{router.push('/login')}} color="inherit">LogOut</Button>
+        <Button onClick={handleLogout} color="inherit">LogOut</Button>
       </Toolbar>
     </AppBar>
   );

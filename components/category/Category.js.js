@@ -1,22 +1,28 @@
 
 import { Box, Button, ButtonGroup, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
  
-import SongCard from './SongCard.js'
+import SongCard from '../SongCard.js'
 import SearchIcon from '@mui/icons-material/Search';
  
 import { useState } from 'react';
 import CategoryTable from './CategoryTable.js';
-import GernalModal from './GernalModal'
+import GernalModal from '../Modal/GernalModal.js'
+import { useEffect } from 'react';
 function Category() {
   const [open, setOpen] =  useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false)
+  const [update, setUpdate] =  useState(false);
+
+  
+  const handleClose = () =>{ setOpen(false);
+    setUpdate(!update);
+  
+  }
   
   
 
-  let songsList =[5,8,6,7,8,5,8,6,7,8,5]
+  
 
-
+useEffect(()=>{},[open])
 
     const buttonStyle = {
        
@@ -31,7 +37,7 @@ function Category() {
     <>
     
   
-    <GernalModal open={open} close={handleClose} type={"category"}/>
+    <GernalModal open={open} close={handleClose} update={update} setUpdate={setUpdate} type={"category"}/>
 
  <Container >
   <div style={{display:"flex", justifyContent:"center" ,marginTop:"5vh"}}>
@@ -44,7 +50,7 @@ function Category() {
   </Button>
   </div>
  
-<CategoryTable/>
+<CategoryTable update={update}/>
  
       </Container>
     </>

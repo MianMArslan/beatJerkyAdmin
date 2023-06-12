@@ -1,4 +1,4 @@
-import Category from '../components/Category.js'
+import Category from '../components/category/Category.js.js'
  import AppBar from '../components/AppBar.js'
 import SecurePage from '@/components/SecurePage.js';
 
@@ -6,10 +6,10 @@ import SecurePage from '@/components/SecurePage.js';
     return(<>
 
    
-    {/* <SecurePage> */}
+    <SecurePage>
     <AppBar/>
    <Category/>
-    {/* </SecurePage> */}
+    </SecurePage>
     
   
     

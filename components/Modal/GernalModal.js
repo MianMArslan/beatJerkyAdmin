@@ -9,7 +9,8 @@ import { Autocomplete, Grid, TextField,Chip ,IconButton} from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SongForm from './SongForm';
 import CategoryForm from './CategoryForm';
- 
+import { AppContext } from "../../context/appContext";
+import { useContext } from 'react';
 const buttonStyle = {
        
       
@@ -50,16 +51,17 @@ const top100Films = [
 ];
 export default function BasicModal(props) {
   
+  const { modalHandler, setModalHandler } = useContext(AppContext);
 
 
 
-  const {open,close,type} =props;
+  const {type,update,setUpdate} =props;
  
   return (
     <div>
      
       <Modal
-        open={open}
+        open={modalHandler}
         
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -67,7 +69,11 @@ export default function BasicModal(props) {
 
         <Box sx={style } >
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <IconButton onClick={close}>
+        <IconButton onClick={()=>{
+
+setModalHandler(false)
+ 
+        }}>
           <CloseIcon />
         </IconButton>
       </div>

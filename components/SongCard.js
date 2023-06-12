@@ -1,65 +1,147 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, IconButton } from '@mui/material';
+import { Button, CardActionArea, CardActions, IconButton, Modal } from '@mui/material';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-export default function MultiActionAreaCard() {
-    const buttonStyle = {
-        backgroundImage: 'linear-gradient(to right, #b716d8, #d126b0)',
-         
-         
-        marginTop:"10px"
-       };
-    const gradient = `linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9))`;
-  return (
-    <Card   sx={{ maxWidth: 250 ,maxHeight:200, backgroundImage:'url("https://thumbs.dreamstime.com/b/dynamic-radial-color-sound-equalizer-design-music-album-cover-template-abstract-circular-digital-data-form-vector-160916775.jpg")' ,backgroundSize: 'cover',
-    backgroundPosition: 'center',}}>
-        <Card     sx={{
-            maxWidth: 250 ,maxHeight:200,
-        background: `${gradient}`,
-        
-        
-      }}>
+import { DELETE, UPDATE, UPLOAD_FORM_DATA } from '../services/httpClient';
+import { AppContext } from "@/context/appContext";
 
-        
-      <CardActionArea>
-     
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body1"  >
-        Category Title
-             
-          </Typography>
-          <Typography variant="body2"  >
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-             
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions style={{display: "flex", justifyContent:"center" ,marginTop:"5%"}}>
-        <IconButton >
-            <EditNoteIcon  fontSize='large'/>
-        </IconButton>
-  
-        <IconButton >
-            < DeleteIcon
-             
-             />
-        </IconButton>
-       
-        <IconButton >
-            < AddAPhotoIcon
-             
-             />
-        </IconButton>
-      </CardActions>
+export default function MultiActionAreaCard({ data, update, setUpdate }) {
+
+  const {
+     setAlert
+  } = React.useContext(AppContext);
+   const [selectedImage, setSelectedImage] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      const response = await DELETE(`/songs/${data.id}`);
+      setUpdate(!update);
+      console.log('Song deleted:', response);
+      setAlert({
+        severity: 'success',
+        title: 'Success!',
+        message: 'Song deleted',
+      });
+    } catch (error) {
+      console.error('Failed to delete song:', error);
+      setAlert({
+        severity: 'error',
+        title: 'Error!',
+        message: 'Failed to delete song:',
+      });
+    }
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file); // Store the selected image file in the state
+  };
+
+  const uploadImage = async () => {
+    try {
+      if (!selectedImage) {
+        console.error('No image selected');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('coverPhoto', selectedImage, selectedImage.name); // Include the file name when appending to FormData
+      console.log('Form data:', formData);
+
+      const response = await UPLOAD_FORM_DATA(`/songs/addCoverImage/${data.id}`, formData);
+      console.log('Image uploaded:', response);
+    ()=>{
+      setAlert({
+        severity: 'Success',
+        title: 'Success!',
+        message: 'Image uploaded',
+      });
+    }
+
+      setUpdate(!update);
+      setOpenModal(false); // Close the modal after uploading the image
+    } catch (error) {
+      setAlert({
+        severity: 'error',
+        title: 'Error!',
+        message: 'Failed to upload image',
+      });
+      console.error('Failed to upload image:', error);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const buttonStyle = {
+    backgroundImage: 'linear-gradient(to right, #b716d8, #d126b0)',
+    marginTop: '10px',
+  };
+
+  const gradient = `linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9))`;
+  return (
+    <Card sx={{ maxWidth: 250, maxHeight: 200, backgroundImage:`url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`
+    , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <Card sx={{ maxWidth: 250, maxHeight: 200, background: `${gradient}` }}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {data.title}
+            </Typography>
+            <Typography gutterBottom variant="h6" component="div">
+              {data.singer}
+            </Typography>
+            <Typography variant="body2">{data.descriptionOfSong}</Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions style={{ display: 'flex', justifyContent: 'center', marginTop: '5%' }}>
+          <IconButton>
+            <EditNoteIcon fontSize="large" />
+          </IconButton>
+          <IconButton onClick={handleDelete}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton onClick={handleOpenModal}>
+            <AddAPhotoIcon />
+          </IconButton>
+        </CardActions>
       </Card>
+
+      {/* Image Upload Modal */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: '#1a1918',border: '2px solid ',borderRadius:"20px", borderColor: ' #b716d8', padding: '1rem', maxWidth: '400px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+    {selectedImage && (
+      <div style={{ marginTop: '1rem', width: '100%', height: '100%', overflow: 'hidden' }}>
+        <img src={URL.createObjectURL(selectedImage)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+    )}
+        <input type="file" accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} id="upload-input" />
+    <label htmlFor="upload-input">
+      <Button fullWidth component="span" variant="contained" style={buttonStyle}>
+        Choose File
+      </Button>
+    </label>
+    <Button  onClick={uploadImage} variant="contained" style={buttonStyle} disabled={!selectedImage}>
+      Upload Image
+    </Button>
+  </div>
+</Modal>
+
+
+
     </Card>
   );
 }

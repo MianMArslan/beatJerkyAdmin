@@ -1,37 +1,42 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Grid, TextField, Autocomplete, Button, CircularProgress, Typography, Alert } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { POST, UPLOAD_FORM_DATA,GET } from '../../services/httpClient';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Grid,
+  TextField,
+  Autocomplete,
+  Button,
+  CircularProgress,
+  Typography,
+  Alert,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { POST, UPLOAD_FORM_DATA, GET } from "../../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 const SongForm = () => {
-   const {
-    categoriesList,
-    setSnackbarState,  setModalHandler,
-  } = useContext(AppContext);
-  
-  
+  const { categoriesList, setSnackbarState, setModalHandler } =
+    useContext(AppContext);
+
   const buttonStyle = {
-    backgroundImage: 'linear-gradient(to right, #b716d8, #d126b0)',
-    color: 'white',
-    fontWeight: 'bold',
-    marginTop: '10px',
+    backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
+    color: "white",
+    fontWeight: "bold",
+    marginTop: "10px",
   };
 
   const disabledButtonStyle = {
     ...buttonStyle,
     opacity: 0.5,
-    cursor: 'not-allowed',
+    cursor: "not-allowed",
   };
 
   const [uploading, setUploading] = useState(false);
   const [songData, setSongData] = useState({
-    title: '',
+    title: "",
     songCategoryID: null,
-    singer: '',
-    descriptionOfSong: '',
-    year: '',
+    singer: "",
+    descriptionOfSong: "",
+    year: "",
     file: null,
   });
   const [isFormValid, setFormValid] = useState(false);
@@ -39,11 +44,11 @@ const SongForm = () => {
   useEffect(() => {
     // Check if all fields are filled and a file is selected
     const isFormValid =
-      songData.title !== '' &&
+      songData.title !== "" &&
       songData.songCategoryID !== null &&
-      songData.singer !== '' &&
-      songData.descriptionOfSong !== '' &&
-      songData.year !== '' &&
+      songData.singer !== "" &&
+      songData.descriptionOfSong !== "" &&
+      songData.year !== "" &&
       songData.file !== null;
 
     setFormValid(isFormValid);
@@ -57,24 +62,17 @@ const SongForm = () => {
   };
 
   const handleAutocompleteChange = (event, value) => {
- 
     // setSongData({
     //   ...songData,
     //   songCategoryID: value.label,
     // });
-    if(value){
- setSongData({
-      ...songData,
-      songCategoryID:  value.id 
-    });
+    if (value) {
+      setSongData({
+        ...songData,
+        songCategoryID: value.id,
+      });
     }
-
-  
-    
-    
-   
   };
-  
 
   const handleFileInputChange = (event) => {
     setSongData({
@@ -85,7 +83,7 @@ const SongForm = () => {
 
   const handleUpload = async () => {
     if (!songData.file) {
-      console.error('No file selected');
+      console.error("No file selected");
       return;
     }
 
@@ -93,48 +91,58 @@ const SongForm = () => {
 
     try {
       const formData = new FormData();
-      formData.append('file', songData.file);
-      formData.append('title', songData.title);
-      formData.append('songCategoryID', JSON.stringify(songData.songCategoryID));
-      formData.append('singer', songData.singer);
-      formData.append('descriptionOfSong', songData.descriptionOfSong);
-      formData.append('year', songData.year);
+      formData.append("file", songData.file);
+      formData.append("title", songData.title);
+      formData.append(
+        "songCategoryID",
+        JSON.stringify(songData.songCategoryID)
+      );
+      formData.append("singer", songData.singer);
+      formData.append("descriptionOfSong", songData.descriptionOfSong);
+      formData.append("year", songData.year);
 
       // Upload the song file and send the data together
-      const createResponse = await UPLOAD_FORM_DATA('/songs', formData);
-      
+      const createResponse = await UPLOAD_FORM_DATA("/songs", formData);
 
       if (createResponse.error) {
-        console.error('Failed to create song:', createResponse.error);
-        setSnackbarState({severity:'error', open:true, message: 'Failed to create song'});
+        console.error("Failed to create song:", createResponse.error);
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Failed to create song",
+        });
 
         return;
-     
       }
 
-      console.log('Song created successfully:', createResponse);
-      setSnackbarState({severity:'success', open:true, message: 'Song created successfully'});
+      console.log("Song created successfully:", createResponse);
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Song created successfully",
+      });
 
       // Reset the form data
       setSongData({
-        title: '',
+        title: "",
         songCategoryID: null,
-        singer: '',
-        descriptionOfSong: '',
-        year: '',
+        singer: "",
+        descriptionOfSong: "",
+        year: "",
         file: null,
       });
     } catch (error) {
- 
-   
-      setSnackbarState({severity:'error', open:true, message: 'An error occurred:'});
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "An error occurred:",
+      });
 
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     } finally {
       setUploading(false);
     }
     setModalHandler(false);
-   
   };
 
   const handleClose = () => {
@@ -143,7 +151,7 @@ const SongForm = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Typography>Add Song</Typography>
       </div>
       <Grid container mt={2} spacing={2}>
@@ -158,18 +166,19 @@ const SongForm = () => {
           />
         </Grid>
         <Grid sm={6} item>
-      <Autocomplete
-   
-  size="small"
-  disablePortal
-  id="combo-box-demo"
-  options={categoriesList}
-  getOptionLabel={(option) => option.categoryName}
-  style={{ backgroundColor: '#1a1918' }}
-  renderInput={(params) => <TextField fullWidth {...params} label="songCategoryID" />}
-  // value={selectedCategory} will be used in edit song // Assuming you have a state variable to store the selected category ID
-  onChange={handleAutocompleteChange}
-/>
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={categoriesList}
+            getOptionLabel={(option) => option.categoryName}
+            style={{ backgroundColor: "#1a1918" }}
+            renderInput={(params) => (
+              <TextField fullWidth {...params} label="songCategoryID" />
+            )}
+            // value={selectedCategory} will be used in edit song // Assuming you have a state variable to store the selected category ID
+            onChange={handleAutocompleteChange}
+          />
         </Grid>
         <Grid sm={6} item>
           <TextField
@@ -192,16 +201,26 @@ const SongForm = () => {
           />
         </Grid>
         <Grid sm={6} item>
-          <Button style={buttonStyle} fullWidth variant="contained" component="label">
+          <Button
+            style={buttonStyle}
+            fullWidth
+            variant="contained"
+            component="label"
+          >
             {uploading ? (
               <>
                 <CircularProgress size={20} style={{ marginRight: 10 }} />
                 Uploading...
               </>
             ) : (
-              'Upload Song'
+              "Upload Song"
             )}
-            <input type="file" accept=".mp3" hidden onChange={handleFileInputChange} />
+            <input
+              type="file"
+              accept=".mp3"
+              hidden
+              onChange={handleFileInputChange}
+            />
           </Button>
         </Grid>
         <Grid sm={6} item>
@@ -216,7 +235,7 @@ const SongForm = () => {
         </Grid>
         <Grid sm={12} item>
           {songData.file ? (
-            <Alert style={{ backgroundColor: '#00c264' }} severity="success">
+            <Alert style={{ backgroundColor: "#00c264" }} severity="success">
               {songData.file.name}
             </Alert>
           ) : (

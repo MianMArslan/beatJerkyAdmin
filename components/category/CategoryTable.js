@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { Table, TableBody, Typography, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField } from '@mui/material';
-import { GET, DELETE, UPDATE } from '../../services/httpClient';
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  Typography,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+} from "@mui/material";
+import { GET, DELETE, UPDATE } from "../../services/httpClient";
 
 const Category = (props) => {
-  const {update}= props;
+  const { update } = props;
   const [tableData, setTableData] = useState([]);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
 
   const fetchData = async () => {
     try {
-      const response = await GET('/category');
- 
+      const response = await GET("/category");
+
       setTableData(response.data);
     } catch (error) {
-      console.error('Failed to fetch category data:', error);
+      console.error("Failed to fetch category data:", error);
     }
   };
 
@@ -49,15 +60,17 @@ const Category = (props) => {
     const { name, value } = event.target;
     setUpdatedData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
-  useEffect(()=>{fetchData()},[update])
+  useEffect(() => {
+    fetchData();
+  }, [update]);
   return (
     <TableContainer component={Paper}>
-      <Table style={{ borderCollapse: 'separate', borderSpacing: '0px' }}>
+      <Table style={{ borderCollapse: "separate", borderSpacing: "0px" }}>
         <TableHead>
-          <TableRow style={{ backgroundColor: 'black' }}>
+          <TableRow style={{ backgroundColor: "black" }}>
             <TableCell>
               <Typography>Category ID</Typography>
             </TableCell>
@@ -77,14 +90,14 @@ const Category = (props) => {
         </TableHead>
         <TableBody>
           {tableData.map((category) => (
-            <TableRow key={category.id} style={{ backgroundColor: 'black' }}>
+            <TableRow key={category.id} style={{ backgroundColor: "black" }}>
               <TableCell>
                 <Typography>{category.id}</Typography>
               </TableCell>
-              <TableCell style={{ width: '20%' }}>
+              <TableCell style={{ width: "20%" }}>
                 {editingCategoryId === category.id ? (
                   <TextField
-                  size='small'
+                    size="small"
                     name="categoryName"
                     value={updatedData.categoryName || category.categoryName}
                     onChange={handleInputChange}
@@ -94,12 +107,15 @@ const Category = (props) => {
                   <Typography>{category.categoryName}</Typography>
                 )}
               </TableCell>
-              <TableCell style={{ width: '60%' }}>
+              <TableCell style={{ width: "60%" }}>
                 {editingCategoryId === category.id ? (
                   <TextField
-                  size='small'
+                    size="small"
                     name="categoryDescription"
-                    value={updatedData.categoryDescription || category.categoryDescription}
+                    value={
+                      updatedData.categoryDescription ||
+                      category.categoryDescription
+                    }
                     onChange={handleInputChange}
                     fullWidth
                   />
@@ -108,17 +124,29 @@ const Category = (props) => {
                 )}
               </TableCell>
               <TableCell>
-                <Button variant="outlined" color="error" onClick={() => handleDelete(category.id)}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDelete(category.id)}
+                >
                   Delete
                 </Button>
               </TableCell>
-              <TableCell style={{ width: '10%' }}>
+              <TableCell style={{ width: "10%" }}>
                 {editingCategoryId === category.id ? (
-                  <Button variant="outlined" color="success" onClick={() => handleUpdate(category.id)}>
-                   Done
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    onClick={() => handleUpdate(category.id)}
+                  >
+                    Done
                   </Button>
                 ) : (
-                  <Button variant="outlined" color="warning" onClick={() => handleEditClick(category.id)}>
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    onClick={() => handleEditClick(category.id)}
+                  >
                     Edit
                   </Button>
                 )}

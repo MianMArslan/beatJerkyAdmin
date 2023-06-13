@@ -105,7 +105,7 @@ export async function UPLOAD_FORM_DATA(url, params) {
   });
   try {
     const response = await httpFileUpload.post(url, params);
- 
+
     return response;
   } catch (error) {
     return {

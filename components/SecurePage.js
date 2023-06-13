@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import jwtDecode from 'jwt-decode';
-import { parseCookies } from 'nookies';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { parseCookies } from "nookies";
 
 const SecurePage = ({ children }) => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const SecurePage = ({ children }) => {
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      router.push('/login');
+      router.push("/login");
     } else {
       setLoading(false);
     }

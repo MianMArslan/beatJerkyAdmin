@@ -44,6 +44,35 @@ const theme = createTheme({
         },
       },
     },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#171717',
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: 'white', // Set the color of the focused small label
+          },
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '0px',
+            '& fieldset': {
+               
+            },
+            '&:hover fieldset': {
+              borderRadius: '10px',
+              borderImage: 'linear-gradient(to left, #b716d8, #d126b0) 1', 
+              borderImageSlice: '1',
+              
+            },
+            '&:focus-within fieldset': {
+              
+              borderImage: 'linear-gradient(to left, #b716d8, #d126b0) 1', 
+              borderImageSlice: '1',            },
+          },
+        },
+        icon: {
+          color: 'brown',
+        },
+      },
+    },
  
   
     MuiTextField: {

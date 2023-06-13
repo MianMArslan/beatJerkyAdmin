@@ -2,20 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Grid, TextField, Autocomplete, Button, CircularProgress, Typography, Alert } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { POST, UPLOAD_FORM_DATA } from '../../services/httpClient';
+import { POST, UPLOAD_FORM_DATA,GET } from '../../services/httpClient';
 import { AppContext } from "@/context/appContext";
 
 const SongForm = () => {
-  const {
-    modalHandler, setModalHandler,setAlert
+   const {
+    categoriesList,
+    setSnackbarState,  setModalHandler,
   } = useContext(AppContext);
-  const categories = [
-    { label: 'Category 1', id: 1 },
-    { label: 'Category 2', id: 2 },
-    { label: 'Category 3', id: 3 },
-    // Add more category options as needed
-  ];
-
+  
+  
   const buttonStyle = {
     backgroundImage: 'linear-gradient(to right, #b716d8, #d126b0)',
     color: 'white',
@@ -32,7 +28,7 @@ const SongForm = () => {
   const [uploading, setUploading] = useState(false);
   const [songData, setSongData] = useState({
     title: '',
-    categories: null,
+    songCategoryID: null,
     singer: '',
     descriptionOfSong: '',
     year: '',
@@ -44,7 +40,7 @@ const SongForm = () => {
     // Check if all fields are filled and a file is selected
     const isFormValid =
       songData.title !== '' &&
-      songData.categories !== null &&
+      songData.songCategoryID !== null &&
       songData.singer !== '' &&
       songData.descriptionOfSong !== '' &&
       songData.year !== '' &&
@@ -61,11 +57,24 @@ const SongForm = () => {
   };
 
   const handleAutocompleteChange = (event, value) => {
-    setSongData({
+ 
+    // setSongData({
+    //   ...songData,
+    //   songCategoryID: value.label,
+    // });
+    if(value){
+ setSongData({
       ...songData,
-      categories: value.label,
+      songCategoryID:  value.id 
     });
+    }
+
+  
+    
+    
+   
   };
+  
 
   const handleFileInputChange = (event) => {
     setSongData({
@@ -86,46 +95,40 @@ const SongForm = () => {
       const formData = new FormData();
       formData.append('file', songData.file);
       formData.append('title', songData.title);
-      formData.append('categories', JSON.stringify(songData.categories));
+      formData.append('songCategoryID', JSON.stringify(songData.songCategoryID));
       formData.append('singer', songData.singer);
       formData.append('descriptionOfSong', songData.descriptionOfSong);
       formData.append('year', songData.year);
 
       // Upload the song file and send the data together
       const createResponse = await UPLOAD_FORM_DATA('/songs', formData);
+      
 
       if (createResponse.error) {
         console.error('Failed to create song:', createResponse.error);
+        setSnackbarState({severity:'error', open:true, message: 'Failed to create song'});
+
         return;
-        setAlert({
-          severity: 'error',
-          title: 'Error!',
-          message: 'Failed to create song....',
-        });
+     
       }
 
       console.log('Song created successfully:', createResponse);
-      setAlert({
-        severity: 'success',
-        title: 'Success!',
-        message: 'Song created successfully',
-      });
+      setSnackbarState({severity:'success', open:true, message: 'Song created successfully'});
+
       // Reset the form data
       setSongData({
         title: '',
-        categories: null,
+        songCategoryID: null,
         singer: '',
         descriptionOfSong: '',
         year: '',
         file: null,
       });
     } catch (error) {
-      console.log("🚀 ~ file: SongForm.js:123 ~ handleUpload ~ error:", error)
-      setAlert({
-        severity: 'error',
-        title: 'Error!',
-        message: 'An error occurred:',
-      });
+ 
+   
+      setSnackbarState({severity:'error', open:true, message: 'An error occurred:'});
+
       console.error('An error occurred:', error);
     } finally {
       setUploading(false);
@@ -155,17 +158,18 @@ const SongForm = () => {
           />
         </Grid>
         <Grid sm={6} item>
-          <Autocomplete
-            size="small"
-            disablePortal
-            id="combo-box-demo"
-            options={categories}
-            getOptionLabel={(option) => option.label}
-            style={{ backgroundColor: '#1a1918' }}
-            renderInput={(params) => <TextField fullWidth {...params} label="Categories" />}
-            value={songData.categories}
-            onChange={handleAutocompleteChange}
-          />
+      <Autocomplete
+   
+  size="small"
+  disablePortal
+  id="combo-box-demo"
+  options={categoriesList}
+  getOptionLabel={(option) => option.categoryName}
+  style={{ backgroundColor: '#1a1918' }}
+  renderInput={(params) => <TextField fullWidth {...params} label="songCategoryID" />}
+  // value={selectedCategory} will be used in edit song // Assuming you have a state variable to store the selected category ID
+  onChange={handleAutocompleteChange}
+/>
         </Grid>
         <Grid sm={6} item>
           <TextField

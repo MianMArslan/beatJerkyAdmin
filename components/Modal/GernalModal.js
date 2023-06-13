@@ -71,7 +71,7 @@ export default function BasicModal(props) {
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <IconButton onClick={()=>{
 
-setModalHandler(false)
+setModalHandler(false);
  
         }}>
           <CloseIcon />

@@ -11,7 +11,7 @@ const Category = (props) => {
   const fetchData = async () => {
     try {
       const response = await GET('/category');
-      console.log("🚀 ~ file: CategoryTable.js:14 ~ fetchData ~ response:", response)
+ 
       setTableData(response.data);
     } catch (error) {
       console.error('Failed to fetch category data:', error);

@@ -4,13 +4,12 @@ import { Box, Button, ButtonGroup, Container, CssBaseline, Grid, TextField, Typo
 import SongCard from './SongCard.js';
 import SearchIcon from '@mui/icons-material/Search';
 import GernalModal from './Modal/GernalModal';
-import Alert from './Alert';
-import { GET, DELETE, UPDATE } from '../services/httpClient';
+ import { GET, DELETE, UPDATE } from '../services/httpClient';
 import { AppContext } from "../context/appContext";
-
+ 
 function Home() {
 
-  const { modalHandler, setModalHandler,showAlert, setAlert  } = useContext(AppContext);
+  const { modalHandler, setModalHandler,snackBarMessage,showAlert, setSnackBarMessage ,setCategoriesList } = useContext(AppContext);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -20,6 +19,8 @@ function Home() {
   const [update, setUpdate] = useState(false);
   const fetchData = async () => {
     try {
+         const responseOfCategory = await GET('/category');
+setCategoriesList(responseOfCategory.data);
       const response = await GET('/songs');
       setList(response.songs);
       console.log('Fetched songs:', response.songs);
@@ -45,13 +46,7 @@ function Home() {
  
   return (
     <>
-{showAlert && (
-  <Alert
-   
-    alert={showAlert}
-    onClose={() => setAlert(null)}
-  />
-)}
+ 
  
               <GernalModal open={modalHandler} close={handleClose} type={'song'} update={update} setUpdate={setUpdate} />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10vh' }}>

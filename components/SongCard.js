@@ -13,38 +13,40 @@ import { AppContext } from "@/context/appContext";
 
 export default function MultiActionAreaCard({ data, update, setUpdate }) {
 
-  const {
-     setAlert
+  const {setSnackbarState,
+       setIsLoading,
   } = React.useContext(AppContext);
    const [selectedImage, setSelectedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   const handleDelete = async () => {
+    setIsLoading(true);
     try {
       const response = await DELETE(`/songs/${data.id}`);
       setUpdate(!update);
       console.log('Song deleted:', response);
-      setAlert({
-        severity: 'success',
-        title: 'Success!',
-        message: 'Song deleted',
-      });
+      
+      setSnackbarState({severity:'success', open:true, message: 'Song deleted'});
+
     } catch (error) {
       console.error('Failed to delete song:', error);
-      setAlert({
-        severity: 'error',
-        title: 'Error!',
-        message: 'Failed to delete song:',
-      });
+  
+      setSnackbarState({severity:'error', open:true, message: 'Failed to delete song'});
+
     }
+    setIsLoading(false);
+
   };
 
   const handleFileUpload = (event) => {
+   
+
     const file = event.target.files[0];
     setSelectedImage(file); // Store the selected image file in the state
   };
 
   const uploadImage = async () => {
+    setIsLoading(true);
     try {
       if (!selectedImage) {
         console.error('No image selected');
@@ -58,23 +60,20 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
       const response = await UPLOAD_FORM_DATA(`/songs/addCoverImage/${data.id}`, formData);
       console.log('Image uploaded:', response);
     ()=>{
-      setAlert({
-        severity: 'Success',
-        title: 'Success!',
-        message: 'Image uploaded',
-      });
+  
+      setSnackbarState({severity:'success', open:true, message: 'Image uploaded'});
+
     }
 
       setUpdate(!update);
       setOpenModal(false); // Close the modal after uploading the image
     } catch (error) {
-      setAlert({
-        severity: 'error',
-        title: 'Error!',
-        message: 'Failed to upload image',
-      });
+     
+      setSnackbarState({severity:'error', open:true, message: 'Failed to upload image'});
+
       console.error('Failed to upload image:', error);
     }
+    setIsLoading(false);
   };
 
   const handleOpenModal = () => {

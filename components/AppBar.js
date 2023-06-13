@@ -5,8 +5,11 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
+import { destroyCookie } from 'nookies';
 // import { destroyCookie } from 'nookies';
  
+import { AppContext } from "../context/appContext";
+import { useContext } from 'react';
 
 
 
@@ -14,11 +17,12 @@ import { useRouter } from 'next/router';
 function MyAppBar() {
 
  
+  const { isLoading, setIsLoading } = useContext(AppContext);
 
   
   const router = useRouter();
   const handleLogout = () => {
-    // destroyCookie(null, 'accessToken'); // Clear the accessToken cookie
+    destroyCookie(null, 'accessToken'); // Clear the accessToken cookie
     router.push('/login'); // Redirect to the login page
   };
   return (

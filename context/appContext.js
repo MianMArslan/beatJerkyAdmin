@@ -1,24 +1,30 @@
 import React, { createContext,useEffect, useState } from "react";
+// import {GET } from '../services/httpClient';
 
 export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const [modalHandler, setModalHandler] = useState(false);
-  const [showAlert, setAlert] = useState(null);
-  const value = {
-    modalHandler,
-    setModalHandler,showAlert, setAlert,
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState(null);
+  const [categoriesList,setCategoriesList] =useState(null);
+
+  const [snackbarState, setSnackbarState] = useState({
+    severity:'',
+    open: false,
+    message: '',
+  });
+
+   
+ 
+
+
+   const value = {
+   categoriesList,setCategoriesList,
+    isLoading, setIsLoading,
+    modalHandler,snackbarState, setSnackbarState,
+    setModalHandler,  
   };
-
-  useEffect(()=>{
-
-    setTimeout(() => {
-      
-      showAlert?setAlert(null):setAlert(null)
-    }, 5000);
-      
-    },[showAlert])
-
   return (
     <AppContext.Provider value={value}>
       {children}

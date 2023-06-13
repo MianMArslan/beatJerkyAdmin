@@ -7,11 +7,30 @@ import { display } from '@material-ui/system';
 import { ThemeProvider } from '@emotion/react';
 import UserProfileCard from './UserProfileCard.js'
 import SearchIcon from '@mui/icons-material/Search';
+ import { GET, DELETE, UPDATE } from '../services/httpClient';
+import { useEffect, useState } from 'react';
+
 function Users() {
-  let songsList =[5,8,6,7,8,5,8,6,7,8,5]
+   const [list, setList] = useState([]);
 
 
+ const fetchData = async () => {
+    try {
+         const response = await GET('/users');
+         console.log("🚀 ~ file: Users.js:18 ~ fetchData ~ response:", response)
+setList(response.data);
+ 
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
+  };
 
+
+    useEffect(() => {
+  
+
+    fetchData();
+  }, []);
     const buttonStyle = {
        
       
@@ -47,9 +66,9 @@ function Users() {
  
 
   <Grid container  spacing={1}  >
-        {songsList.map((data) => (
+        {list.map((data) => (
           <Grid mt="50px" item xs={12} sm={4} md={3} lg={3} key={data}>
-            <UserProfileCard   />
+            <UserProfileCard  data={data}  />
           </Grid>
         ))}
       </Grid>

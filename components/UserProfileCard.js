@@ -4,7 +4,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Avatar, Button } from '@material-ui/core';
 
-export default function UserProfileCard() {
+export default function UserProfileCard(props) {
+  const{data}=props
   const cardStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -25,7 +26,8 @@ export default function UserProfileCard() {
           sx={{ width: 100, height: 100 }}
         />
         <Typography gutterBottom variant="h5" component="div">
-          User Name
+          {data.firstName}{''} {data.lastName}
+
         </Typography>
         <Typography variant="body2"  >
           Following: 22 | Followers: 250

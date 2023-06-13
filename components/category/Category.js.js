@@ -4,24 +4,21 @@ import { Box, Button, ButtonGroup, Container, CssBaseline, Grid, TextField, Typo
 import SongCard from '../SongCard.js'
 import SearchIcon from '@mui/icons-material/Search';
  
-import { useState } from 'react';
+import { useState ,useContext} from 'react';
 import CategoryTable from './CategoryTable.js';
 import GernalModal from '../Modal/GernalModal.js'
 import { useEffect } from 'react';
+import { AppContext } from "../../context/appContext";
 function Category() {
   const [open, setOpen] =  useState(false);
   const [update, setUpdate] =  useState(false);
 
-  
+  const { modalHandler, setModalHandler } = useContext(AppContext);
+
   const handleClose = () =>{ setOpen(false);
     setUpdate(!update);
   
   }
-  
-  
-
-  
-
 useEffect(()=>{},[open])
 
     const buttonStyle = {
@@ -37,7 +34,8 @@ useEffect(()=>{},[open])
     <>
     
   
-    <GernalModal open={open} close={handleClose} update={update} setUpdate={setUpdate} type={"category"}/>
+   
+    <GernalModal open={modalHandler} close={handleClose} type={"category"} update={update} setUpdate={setUpdate} />
 
  <Container >
   <div style={{display:"flex", justifyContent:"center" ,marginTop:"5vh"}}>
@@ -45,7 +43,7 @@ useEffect(()=>{},[open])
   </div>
   
   <div style={{display:"flex", justifyContent:"flex-end" ,marginTop:"5vh"}}>
-  <Button onClick={()=>setOpen(true)}   variant="contained" style={buttonStyle}  >
+  <Button onClick={()=>setModalHandler(true)}   variant="contained" style={buttonStyle}  >
       Add Category
   </Button>
   </div>

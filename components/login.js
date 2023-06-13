@@ -4,36 +4,46 @@ import theme from '../themes/theme.js';
 import Image from 'next/image';
 import { display } from '@material-ui/system';
 import { ThemeProvider } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { POST } from '../services/httpClient'; // Import the POST function from the httpClient
-
+import { AppContext } from "../context/appContext";
+import SimpleBackdrop from './SimpleBackdrop.js'
 function Login() {
+  const { isLoading, setIsLoading , setSnackbarState} = useContext(AppContext);
+
   const router = useRouter();
   const [email, setEmail] = useState('');   
   const [password, setPassword] = useState('');
    
   const handleLogin = async () => {
+    setIsLoading(true);
     const params = { email, password,isAdmin:true };
 
     try {
       const response = await POST('/auth/login', params); // Send a POST request to the login API endpoint
       console.log(response); // Handle the response as per your requirements
-      console.log("🚀 ~ file: login.js:24 ~ handleLogin ~ response:", response.status )
+  
 
       if (response && response.status=="success") {
-        console.log("🚀 ~ file: login.js:25 ~ handleLogin ~ response:", response)
-        // Login successful, redirect to the home page
+ 
+  
         router.push('/home');
       } else {
+
         // Login failed, handle the error
         // Display an error message or perform any other necessary actions
         console.log('Login failed');
+        setSnackbarState({severity:'error', open:true, message: 'Login failed'});
+
       }
     } catch (error) {
       // Handle any network or API errors
       console.log('An error occurred:', error);
+      setSnackbarState({severity:'error', open:true, message: 'An error occurred'});
+
     }
+    setIsLoading(false)
   };
 
   const buttonStyle = {
@@ -45,6 +55,8 @@ function Login() {
 
   return (
     <>
+              {/* <SimpleBackdrop/> */}
+
     {/* <Alert severity="info">This is an error alert — check it out!</Alert> */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10vh' }}>
         <div style={{ width: '400px', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>

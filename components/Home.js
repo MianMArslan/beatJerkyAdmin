@@ -112,7 +112,7 @@ function Home() {
         </div>
 
         <Grid container spacing={1}>
-          {list.map((data) => (
+          {list?.map((data) => (
             <Grid mt="50px" item xs={12} sm={4} md={3} lg={3} key={data.id}>
               <SongCard data={data} update={update} setUpdate={setUpdate} />
             </Grid>

@@ -36,7 +36,7 @@ function Home() {
     try {
       const responseOfCategory = await GET("/category");
       setCategoriesList(responseOfCategory.data);
-      const response = await GET("/songs");
+      const response = await GET("/song");
       setList(response.songs);
       console.log("Fetched songs:", response.songs);
     } catch (error) {
@@ -45,7 +45,8 @@ function Home() {
   };
   useEffect(() => {
     fetchData();
-  }, [update]);
+  
+  }, []);
 
   const handleSearch = () => {
     // Perform search logic here

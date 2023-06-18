@@ -16,15 +16,19 @@ import { ThemeProvider } from "@emotion/react";
 import UserProfileCard from "./UserProfileCard.js";
 import SearchIcon from "@mui/icons-material/Search";
 import { GET, DELETE, UPDATE } from "../services/httpClient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/appContext";
 
 function Users() {
+    const { isLoading, setIsLoading, setSnackbarState , isUsersUpdated,
+     setIsUsersUpdated, } = useContext(AppContext);
+
   const [list, setList] = useState([]);
 
   const fetchData = async () => {
     try {
       const response = await GET("/users");
-      console.log("🚀 ~ file: Users.js:18 ~ fetchData ~ response:", response);
+    
       setList(response.data);
     } catch (error) {
       console.error("Failed to fetch users:", error);
@@ -33,7 +37,7 @@ function Users() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isUsersUpdated]);
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
     color: "white",

@@ -20,6 +20,8 @@ function Home() {
   const {
     modalHandler,
     setModalHandler,
+    setIsUpdated,
+    isUpdated,
     snackBarMessage,
     showAlert,
     setSnackBarMessage,
@@ -46,7 +48,7 @@ function Home() {
   useEffect(() => {
     fetchData();
   
-  }, []);
+  }, [isUpdated]);
 
   const handleSearch = () => {
     // Perform search logic here

@@ -14,7 +14,7 @@ import { POST, UPLOAD_FORM_DATA, GET } from "../../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 const SongForm = () => {
-  const { categoriesList, setSnackbarState, setModalHandler } =
+  const { categoriesList, setSnackbarState, setModalHandler ,setIsUpdated,isUpdated} =
     useContext(AppContext);
 
   const buttonStyle = {
@@ -102,7 +102,7 @@ const SongForm = () => {
       formData.append("year", songData.year);
 
       // Upload the song file and send the data together
-      const createResponse = await UPLOAD_FORM_DATA("/songs", formData);
+      const createResponse = await UPLOAD_FORM_DATA("/song", formData);
 
       if (createResponse.error) {
         console.error("Failed to create song:", createResponse.error);
@@ -121,7 +121,7 @@ const SongForm = () => {
         open: true,
         message: "Song created successfully",
       });
-
+setIsUpdated(!isUpdated);
       // Reset the form data
       setSongData({
         title: "",
@@ -145,9 +145,7 @@ const SongForm = () => {
     setModalHandler(false);
   };
 
-  const handleClose = () => {
-    // Handle close logic
-  };
+  
 
   return (
     <>

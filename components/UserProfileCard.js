@@ -3,8 +3,15 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Avatar, Button } from "@material-ui/core";
+import { Chip } from "@mui/material";
+import { AppContext } from "../context/appContext";
+import { useContext } from "react";
+import { UPDATE } from "../services/httpClient"; // Import the POST function from the httpClient
 
 export default function UserProfileCard(props) {
+  const { isLoading, setIsLoading, setSnackbarState , isUsersUpdated,
+     setIsUsersUpdated, } = useContext(AppContext);
+   
   const { data } = props;
   const cardStyle = {
     display: "flex",
@@ -17,24 +24,77 @@ export default function UserProfileCard(props) {
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
+  async function handleSuspendUser(){
+    setIsLoading(true);
+      const params = { isDeleted:true };
+      const response = await UPDATE(`/users/${data.id}`, params);
+      if(response){
+          setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Profile Status Changed",
+      });
+          setIsLoading(false);
+setIsUsersUpdated(!isUsersUpdated);
+      return;
+        
+      }
+           setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "An Error Occurred!",
+      });
+     
+    setIsLoading(false);
+   }
+    async function handleActivateUser(){
+    setIsLoading(true);
+      const params = { isDeleted:false };
+      const response = await UPDATE(`/users/${data.id}`, params);
+         if(response){
+          setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Profile Status Changed",
+      });
+          setIsLoading(false);
+setIsUsersUpdated(!isUsersUpdated);
+      return;
+        
+      }
+           setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "An Error Occurred!",
+      });
+     setIsLoading(false);
+ 
+
+  }
 
   return (
     <Card sx={{ maxWidth: 250 }}>
+     
       <CardContent style={cardStyle}>
-        <Avatar
-          alt="Remy Sharp"
-          src="https://i.pravatar.cc/300"
-          sx={{ width: 100, height: 100 }}
+    
+          {data.isDeleted?(<Chip color="error" sx={{ marginBottom:"10px"}} size="small" label="Deleted"/>):(<Chip color="success" sx={{ marginBottom:"10px"}} size="small" label="Active"/>)}
+        <Avatar 
+        
+          alt={data.firstName?data.firstName:"N/A"}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/profile-images/${data.coverImageURL}`}
+          sx={{  width: 100, height: 100 }}
         />
         <Typography gutterBottom variant="h5" component="div">
-          {data.firstName}
-          {""} {data.lastName}
+          {data.firstName?data.firstName:"N/A"}
+         &nbsp; {data.lastName}
         </Typography>
         <Typography variant="body2">Following: 22 | Followers: 250</Typography>
 
-        <Button style={{ backgroundColor: "#f75b00", marginTop: "15px" }}>
-          Disable User
-        </Button>
+        {data.isDeleted?(<Button onClick={handleActivateUser} style={{ backgroundColor: "#00d438", marginTop: "15px" }}>
+          Activate User
+        </Button>):(<Button onClick={handleSuspendUser} style={{ backgroundColor: "#c20000", marginTop: "15px" }}>
+          Suspend User
+        </Button>)}
       </CardContent>
     </Card>
   );

@@ -8,6 +8,8 @@ const AppContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState(null);
   const [categoriesList, setCategoriesList] = useState(null);
+  const [isUpdated, setIsUpdated] = useState(false);
+    const [isUsersUpdated, setIsUsersUpdated] = useState(false);
 
   const [snackbarState, setSnackbarState] = useState({
     severity: "",
@@ -16,6 +18,10 @@ const AppContextProvider = ({ children }) => {
   });
 
   const value = {
+    isUsersUpdated,
+     setIsUsersUpdated,
+    setIsUpdated,
+    isUpdated,
     categoriesList,
     setCategoriesList,
     isLoading,

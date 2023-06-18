@@ -18,14 +18,14 @@ import { DELETE, UPDATE, UPLOAD_FORM_DATA } from "../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 export default function MultiActionAreaCard({ data, update, setUpdate }) {
-  const { setSnackbarState, setIsLoading } = React.useContext(AppContext);
+  const { setSnackbarState, setIsLoading  , setIsUpdated,isUpdated } = React.useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      const response = await DELETE(`/songs/${data.id}`);
+      const response = await DELETE(`/song/${data.id}`);
       setUpdate(!update);
       console.log("Song deleted:", response);
 
@@ -34,6 +34,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         open: true,
         message: "Song deleted",
       });
+      setIsUpdated(!isUpdated);
     } catch (error) {
       console.error("Failed to delete song:", error);
 
@@ -64,7 +65,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
       console.log("Form data:", formData);
 
       const response = await UPLOAD_FORM_DATA(
-        `/songs/addCoverImage/${data.id}`,
+        `/song/addCoverImage/${data.id}`,
         formData
       );
       console.log("Image uploaded:", response);
@@ -76,7 +77,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         });
       };
 
-      setUpdate(!update);
+   setIsUpdated(!isUpdated);
       setOpenModal(false); // Close the modal after uploading the image
     } catch (error) {
       setSnackbarState({

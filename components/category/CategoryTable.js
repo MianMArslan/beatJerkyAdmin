@@ -99,7 +99,8 @@ const Category = (props) => {
                   <TextField
                     size="small"
                     name="categoryName"
-                    value={updatedData.categoryName || category.categoryName}
+                    defaultValue={updatedData.categoryName || category.categoryName}
+                     
                     onChange={handleInputChange}
                     fullWidth
                   />
@@ -112,7 +113,7 @@ const Category = (props) => {
                   <TextField
                     size="small"
                     name="categoryDescription"
-                    value={
+                    defaultValue={
                       updatedData.categoryDescription ||
                       category.categoryDescription
                     }

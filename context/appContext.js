@@ -5,6 +5,9 @@ export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const [modalHandler, setModalHandler] = useState(false);
+    const [editModalHandler, setEditModalHandler] = useState(false);
+    const [editSongData, setEditSongData] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState(null);
   const [categoriesList, setCategoriesList] = useState(null);
@@ -18,6 +21,10 @@ const AppContextProvider = ({ children }) => {
   });
 
   const value = {
+    editSongData,
+     setEditSongData,
+    editModalHandler, 
+    setEditModalHandler,
     isUsersUpdated,
      setIsUsersUpdated,
     setIsUpdated,

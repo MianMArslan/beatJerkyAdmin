@@ -8,11 +8,14 @@ import {
 } from "@mui/material";
 
 import Image from "next/image";
+import { UPDATE } from "../services/httpClient";
+import { AppContext } from "../context/appContext";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 
 function ChangePassword() {
+    const {setIsLoading,  setSnackbarState} = useContext(AppContext);
   const router = useRouter();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -25,14 +28,33 @@ function ChangePassword() {
     fontWeight: "bold",
     marginTop: "20px",
   };
-
-  const handlePasswordChange = () => {
+const params={currentPassword,newPassword}
+  const handlePasswordChange = async() => {
+     setIsLoading(true);
     if (newPassword !== confirmNewPassword) {
       setError("Passwords do not match");
     } else {
+      //resetPassword
+      const response = await UPDATE("/auth/changePassword", params); // Send a POST request to the login API endpoint
+ 
+if (response.error){
+      setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "An error occurred while changing the password",
+        });
+}
+    if (response.status===200){
+      setSnackbarState({
+          severity: "success",
+          open: true,
+          message:"Password changed Successfully",
+        });
+          }
       // Make API call to change the password
       // Implement your API logic here
     }
+     setIsLoading(false);
   };
 
   return (

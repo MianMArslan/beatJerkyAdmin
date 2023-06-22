@@ -18,7 +18,7 @@ import { DELETE, UPDATE, UPLOAD_FORM_DATA } from "../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 export default function MultiActionAreaCard({ data, update, setUpdate }) {
-  const { setSnackbarState, setIsLoading  , setIsUpdated,isUpdated } = React.useContext(AppContext);
+  const { setSnackbarState, setIsLoading  , setIsUpdated,isUpdated,setEditModalHandler,setEditSongData } = React.useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
@@ -130,7 +130,10 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         <CardActions
           style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}
         >
-          <IconButton>
+          <IconButton onClick={()=>{setEditModalHandler(true);
+          setEditSongData(data);
+          
+          }}>
             <EditNoteIcon fontSize="large" />
           </IconButton>
           <IconButton onClick={handleDelete}>

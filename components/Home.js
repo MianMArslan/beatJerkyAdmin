@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import GernalModal from "./Modal/GernalModal";
 import { GET, DELETE, UPDATE } from "../services/httpClient";
 import { AppContext } from "../context/appContext";
+import EditSongGernalModal from "./EditSongMdal/EditSongGernalModal.js";
 
 function Home() {
   const {
@@ -62,6 +63,7 @@ function Home() {
 
   return (
     <>
+    <EditSongGernalModal/>
       <GernalModal
         open={modalHandler}
         close={handleClose}

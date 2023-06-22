@@ -7,10 +7,11 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Autocomplete, Grid, TextField, Chip, IconButton } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import SongForm from "./SongForm";
-import CategoryForm from "./CategoryForm";
+ 
+ 
 import { AppContext } from "../../context/appContext";
 import { useContext } from "react";
+import EditSongForm from "./EditSongForm";
 const buttonStyle = {
   backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
   color: "white",
@@ -31,15 +32,15 @@ const style = {
   p: 2,
 };
  
-export default function BasicModal(props) {
-  const { modalHandler, setModalHandler } = useContext(AppContext);
+export default function EditSongGernalModal(props) {
+  const {editModalHandler, setEditModalHandler, } = useContext(AppContext);
 
   const { type, update, setUpdate } = props;
 
   return (
     <div>
       <Modal
-        open={modalHandler}
+        open={editModalHandler}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -47,13 +48,13 @@ export default function BasicModal(props) {
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButton
               onClick={() => {
-                setModalHandler(false);
+                setEditModalHandler(false);
               }}
             >
               <CloseIcon />
             </IconButton>
           </div>
-          {type == "category" ? <CategoryForm /> : <SongForm />}
+     <EditSongForm/>
         </Box>
       </Modal>
     </div>

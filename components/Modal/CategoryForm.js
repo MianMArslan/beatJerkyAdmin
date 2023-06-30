@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, TextField, Button, Typography, Alert } from "@mui/material";
 import { POST } from "../../services/httpClient";
+import { AppContext } from "../../context/appContext.js";
 
 const CategoryForm = () => {
+      const { setModalHandler, setIsUpdated,isUpdated} = useContext(AppContext);
+
   const [categoryData, setCategoryData] = useState({
     categoryName: "",
     categoryDescription: "",
@@ -20,9 +23,14 @@ const CategoryForm = () => {
       const response = await POST("/category/createCategory", categoryData);
       setButtonStatus(true);
       console.log("Response:", response);
+            setIsUpdated(!isUpdated);
+
     } catch (error) {
       console.error("Error:", error);
     }
+        setTimeout(()=>{
+setModalHandler(false);
+      },3000)
   };
 
   const handleInputChange = (e) => {

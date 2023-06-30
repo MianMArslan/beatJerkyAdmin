@@ -9,9 +9,14 @@ const AppContextProvider = ({ children }) => {
     const [editSongData, setEditSongData] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [snackBarMessage, setSnackBarMessage] = useState(null);
-  const [categoriesList, setCategoriesList] = useState(null);
+   const [categoriesList, setCategoriesList] = useState(null);
+    const [musicStyleCategoriesList, setMusicStyleCategoriesList] = useState(null);
+
+  
   const [isUpdated, setIsUpdated] = useState(false);
+ 
+    const [modalType, setModalType] = useState(null);
+
     const [isUsersUpdated, setIsUsersUpdated] = useState(false);
 
   const [snackbarState, setSnackbarState] = useState({
@@ -21,6 +26,8 @@ const AppContextProvider = ({ children }) => {
   });
 
   const value = {
+    modalType,
+     setModalType,
     editSongData,
      setEditSongData,
     editModalHandler, 
@@ -37,6 +44,8 @@ const AppContextProvider = ({ children }) => {
     snackbarState,
     setSnackbarState,
     setModalHandler,
+    musicStyleCategoriesList,
+   setMusicStyleCategoriesList
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

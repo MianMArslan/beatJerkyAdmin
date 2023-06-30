@@ -5,6 +5,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -18,26 +19,46 @@ import SearchIcon from "@mui/icons-material/Search";
 import { GET, DELETE, UPDATE } from "../services/httpClient";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/appContext";
+import CloseIcon from '@mui/icons-material/Close';
+import { useRouter } from "next/router";
 
 function Users() {
+    const [search, setSearch] = useState(false);
+
+  const router=useRouter();
     const { isLoading, setIsLoading, setSnackbarState , isUsersUpdated,
      setIsUsersUpdated, } = useContext(AppContext);
 
   const [list, setList] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const response = await GET("/users");
-    
-      setList(response.data);
-    } catch (error) {
-      console.error("Failed to fetch users:", error);
-    }
+  const handleSearch = () => {
+   
+        router.push({
+      pathname: router.route,
+      query: { search: search, }
+    });
   };
+const fetchData = async () => {
+  try {
+    // Get the search query parameter from the URL
+    const searchQuery = router.query.search || '';
 
+    // Construct the API endpoint URL with the search query parameter
+    const endpoint = `/users?search=${encodeURIComponent(searchQuery)}`;
+
+    const response = await GET(endpoint);
+    setList(response.data);
+    console.log("Fetched users:", response.data);
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+  }
+};
+  function handleChangeSearch(e){
+ 
+ setSearch(e.target.value)
+  }
   useEffect(() => {
     fetchData();
-  }, [isUsersUpdated]);
+  }, [isUsersUpdated,router]);
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
     color: "white",
@@ -58,17 +79,25 @@ function Users() {
           }}
         >
           <TextField
+          onChange={handleChangeSearch}
             label="Search User"
             fullWidth
-            InputProps={{
+                  InputProps={{
               endAdornment: (
+                <>
+                <IconButton
+                 onClick={()=>(router.push(  router.route))}>
+                <CloseIcon  />
+                  </IconButton>
                 <Button
                   variant="contained"
                   style={buttonStyle}
                   endIcon={<SearchIcon />}
+                  onClick={handleSearch}
                 >
                   Search
                 </Button>
+                </>
               ),
             }}
           />

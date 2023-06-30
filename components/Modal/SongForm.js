@@ -172,7 +172,7 @@ setIsUpdated(!isUpdated);
             getOptionLabel={(option) => option.categoryName}
             style={{ backgroundColor: "#1a1918" }}
             renderInput={(params) => (
-              <TextField fullWidth {...params} label="songCategoryID" />
+              <TextField fullWidth {...params} label="Select Song Category" />
             )}
             // value={selectedCategory} will be used in edit song // Assuming you have a state variable to store the selected category ID
             onChange={handleAutocompleteChange}

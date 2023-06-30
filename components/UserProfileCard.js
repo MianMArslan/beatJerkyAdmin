@@ -73,7 +73,11 @@ setIsUsersUpdated(!isUsersUpdated);
   }
 
   return (
-    <Card sx={{ maxWidth: 250 }}>
+    <Card sx={{ maxWidth: 250 ,   transition: "transform 0.3s, box-shadow 0.3s",
+        "&:hover": {
+          transform: "scale(1.05)",
+          boxShadow: "0 4px 20px rgba(0, 123, 255, 0.3)",
+        },}}>
      
       <CardContent style={cardStyle}>
     

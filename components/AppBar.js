@@ -36,16 +36,17 @@ function MyAppBar() {
               Home
             </Button>
           </Grid>
-          <Grid item>
+                          <Grid item>
             <Button
               onClick={() => {
-                router.push("/users");
+                router.push("/musicStyle");
               }}
               color="inherit"
             >
-              Users
+              Music Style
             </Button>
           </Grid>
+
           <Grid item>
             <Button
               onClick={() => {
@@ -54,6 +55,27 @@ function MyAppBar() {
               color="inherit"
             >
               Category
+            </Button>
+          </Grid>
+                   <Grid item>
+            <Button
+              onClick={() => {
+                router.push("/musicStyleCategory");
+              }}
+              color="inherit"
+            >
+              Music Style Category
+            </Button>
+          </Grid>
+
+                    <Grid item>
+            <Button
+              onClick={() => {
+                router.push("/users");
+              }}
+              color="inherit"
+            >
+              Users
             </Button>
           </Grid>
           <Grid item>

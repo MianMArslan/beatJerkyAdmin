@@ -11,6 +11,8 @@ import SongForm from "./SongForm";
 import CategoryForm from "./CategoryForm";
 import { AppContext } from "../../context/appContext";
 import { useContext } from "react";
+import MusicStyleForm from "./MusicStyleForm";
+import MusicStyleSongForm from "./MusicStyleSongForm"
 const buttonStyle = {
   backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
   color: "white",
@@ -32,9 +34,10 @@ const style = {
 };
  
 export default function BasicModal(props) {
-  const { modalHandler, setModalHandler } = useContext(AppContext);
+  const { modalHandler, modalType, setModalType,setModalHandler } = useContext(AppContext);
+  console.log("🚀 ~ file: GernalModal.js:37 ~ BasicModal ~ modalType:", modalType)
 
-  const { type, update, setUpdate } = props;
+  const {   update, setUpdate } = props;
 
   return (
     <div>
@@ -53,7 +56,7 @@ export default function BasicModal(props) {
               <CloseIcon />
             </IconButton>
           </div>
-          {type == "category" ? <CategoryForm /> : <SongForm />}
+          {modalType == "category" ? <CategoryForm /> : modalType=="MusicStyle"?<MusicStyleForm/>:modalType=="musicStyleSongs" ?<MusicStyleSongForm />:modalType=="songs" ?<SongForm />:<></>}
         </Box>
       </Modal>
     </div>

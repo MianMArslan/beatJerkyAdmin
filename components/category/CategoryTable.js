@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,9 +12,10 @@ import {
   TextField,
 } from "@mui/material";
 import { GET, DELETE, UPDATE } from "../../services/httpClient";
+import { AppContext } from "@/context/appContext";
 
 const Category = (props) => {
-  const { update } = props;
+     const {isUpdated } = useContext(AppContext);
   const [tableData, setTableData] = useState([]);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
@@ -65,7 +66,7 @@ const Category = (props) => {
   };
   useEffect(() => {
     fetchData();
-  }, [update]);
+  }, [isUpdated]);
   return (
     <TableContainer component={Paper}>
       <Table style={{ borderCollapse: "separate", borderSpacing: "0px" }}>

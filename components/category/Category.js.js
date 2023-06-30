@@ -21,7 +21,7 @@ function Category() {
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
 
-  const { modalHandler, setModalHandler } = useContext(AppContext);
+  const { modalHandler, setModalHandler,setModalType } = useContext(AppContext);
 
   const handleClose = () => {
     setOpen(false);
@@ -39,8 +39,7 @@ function Category() {
       <GernalModal
         open={modalHandler}
         close={handleClose}
-        type={"category"}
-        update={update}
+         update={update}
         setUpdate={setUpdate}
       />
 
@@ -63,7 +62,7 @@ function Category() {
           }}
         >
           <Button
-            onClick={() => setModalHandler(true)}
+            onClick={() => {setModalType("category");setModalHandler(true);}}
             variant="contained"
             style={buttonStyle}
           >

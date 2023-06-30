@@ -55,6 +55,37 @@ function Login() {
     }
     setIsLoading(false);
   };
+    const handleForgotPassword = async () => {
+    setIsLoading(true);
+    const params = { email, password, isAdmin: true };
+
+    try {
+      const response = await POST("/forgotPassword", ); // Send a POST request to the login API endpoint
+      console.log(response); // Handle the response as per your requirements
+
+      if (response && response.status == "success") {
+        router.push("/home");
+      } else {
+        // Login failed, handle the error
+        // Display an error message or perform any other necessary actions
+        console.log("Login failed");
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Login failed",
+        });
+      }
+    } catch (error) {
+      // Handle any network or API errors
+      console.log("An error occurred:", error);
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "An error occurred",
+      });
+    }
+    setIsLoading(false);
+  };
 
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
@@ -101,6 +132,7 @@ function Login() {
           <Button
             style={{ marginRight: "-246px", marginTop: "20px" }}
             variant="text"
+            onClick={handleForgotPassword}
           >
             Forgot Password
           </Button>

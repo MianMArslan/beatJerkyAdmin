@@ -6,6 +6,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,45 +16,62 @@ import SearchIcon from "@mui/icons-material/Search";
 import GernalModal from "./Modal/GernalModal";
 import { GET, DELETE, UPDATE } from "../services/httpClient";
 import { AppContext } from "../context/appContext";
-import EditSongGernalModal from "./EditSongMdal/EditSongGernalModal.js";
-
+ import { useRouter } from "next/router.js";
+import CloseIcon from '@mui/icons-material/Close';
 function Home() {
+  const router=useRouter();
   const {
     modalHandler,
     setModalHandler,
-    setIsUpdated,
+ 
     isUpdated,
-    snackBarMessage,
-    showAlert,
-    setSnackBarMessage,
+  
     setCategoriesList,
+    setModalType,
   } = useContext(AppContext);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [search, setSearch] = useState(false);
 
   const [list, setList] = useState([]);
   const [update, setUpdate] = useState(false);
-  const fetchData = async () => {
-    try {
-      const responseOfCategory = await GET("/category");
-      setCategoriesList(responseOfCategory.data);
-      const response = await GET("/song");
-      setList(response.songs);
-      console.log("Fetched songs:", response.songs);
-    } catch (error) {
-      console.error("Failed to fetch songs:", error);
-    }
-  };
+const fetchData = async () => {
+  try {
+    const responseOfCategory = await GET("/category");
+    setCategoriesList(responseOfCategory.data);
+    
+    // Get the search query parameter from the URL
+    const searchQuery = router.query.search || '';
+
+    // Construct the API endpoint URL with the search query parameter
+    const endpoint = `/song?search=${encodeURIComponent(searchQuery)}`;
+    
+    const response = await GET(endpoint);
+    setList(response.songs);
+    console.log("Fetched songs:", response.songs);
+  } catch (error) {
+    console.error("Failed to fetch songs:", error);
+  }
+};
+  function handleChangeSearch(e){
+ 
+ setSearch(e.target.value)
+  }
   useEffect(() => {
     fetchData();
   
-  }, [isUpdated]);
-
+  }, [isUpdated,router]);
+  
   const handleSearch = () => {
     // Perform search logic here
+        router.push({
+      pathname: router.route,
+      query: { search: search, }
+    });
   };
+
 
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
@@ -63,7 +81,7 @@ function Home() {
 
   return (
     <>
-    <EditSongGernalModal/>
+    
       <GernalModal
         open={modalHandler}
         close={handleClose}
@@ -84,10 +102,16 @@ function Home() {
           }}
         >
           <TextField
+          onChange={handleChangeSearch}
             label="Search Songs"
             fullWidth
             InputProps={{
               endAdornment: (
+                <>
+                <IconButton
+                 onClick={()=>(router.push(  router.route))}>
+                <CloseIcon  />
+                  </IconButton>
                 <Button
                   variant="contained"
                   style={buttonStyle}
@@ -96,6 +120,7 @@ function Home() {
                 >
                   Search
                 </Button>
+                </>
               ),
             }}
           />
@@ -106,6 +131,7 @@ function Home() {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             onClick={() => {
+              setModalType("songs");
               setModalHandler(true);
             }}
             variant="contained"

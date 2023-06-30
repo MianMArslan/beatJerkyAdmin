@@ -2,23 +2,33 @@ import * as React from "react";
 import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import {
   Button,
   CardActionArea,
   CardActions,
   IconButton,
+  TextField,
   Modal,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { DELETE, UPDATE, UPLOAD_FORM_DATA } from "../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 export default function MultiActionAreaCard({ data, update, setUpdate }) {
-  const { setSnackbarState, setIsLoading  , setIsUpdated,isUpdated,setEditModalHandler,setEditSongData } = React.useContext(AppContext);
+  const {
+    setSnackbarState,
+    setIsLoading,
+    setIsUpdated,
+    isUpdated,
+    setEditModalHandler,
+    setEditSongData,
+  } = React.useContext(AppContext);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
@@ -47,7 +57,61 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
     setIsLoading(false);
   };
 
-  const handleFileUpload = (event) => {
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditedData(data);
+  };
+
+  const handleInputChange = (event) => {
+    setEditedData({
+      ...editedData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSave = async () => {
+    setIsEditing(false);
+    setEditModalHandler(false);
+    setEditSongData(null);
+
+    setIsLoading(true);
+    try {
+      const response = await UPDATE(`/song/${data.id}`, editedData);
+      setUpdate(!update);
+      console.log("Song deleted:", response);
+
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Song deleted",
+      });
+      setIsUpdated(!isUpdated);
+    } catch (error) {
+      console.error("Failed to delete song:", error);
+
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to delete song",
+      });
+    }
+    setIsLoading(false);
+
+    setIsUpdated(!isUpdated);
+    setSnackbarState({
+      severity: "success",
+      open: true,
+      message: "Song updated",
+    });
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditModalHandler(false);
+    setEditSongData(null);
+  };
+
+ const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file); // Store the selected image file in the state
   };
@@ -105,48 +169,118 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
   };
 
   const gradient = `linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9))`;
+
   return (
     <Card
       sx={{
-        maxWidth: 250,
-        maxHeight: 200,
+        width: 250,
+        height: 200,
         backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        transition: "transform 0.3s, box-shadow 0.3s",
+        "&:hover": {
+          transform: "scale(1.05)",
+          boxShadow: "0 4px 20px rgba(0, 123, 255, 0.3)",
+        },
       }}
     >
-      <Card sx={{ maxWidth: 250, maxHeight: 200, background: `${gradient}` }}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {data.title}
+      <Card sx={{ width: "inherit", height: "inherit", background: `${gradient}` }}>
+        {/* <CardActionArea> */}
+        {/* <CardContent style={{ paddingBottom: "0px" }}> */}
+        {isEditing ? (
+          <div>
+            <TextField
+              fullWidth
+              name="title"
+              label="Title"
+              variant="standard"
+              size="small"
+              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)" }}
+              value={editedData.title || ""}
+              onChange={handleInputChange}
+            />
+            <TextField
+              fullWidth
+              name="singer"
+              label="Singer"
+              variant="standard"
+              size="small"
+              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)" }}
+              value={editedData.singer || ""}
+              onChange={handleInputChange}
+            />
+            <TextField
+              fullWidth
+              name="descriptionOfSong"
+              label="Description"
+              variant="standard"
+              size="small"
+              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)" }}
+              value={editedData.descriptionOfSong || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+        ) : (
+          <div style={{marginTop:"20px",marginLeft:"10px"}}>
+            <Typography gutterBottom variant="h6" component="div">
+              Song Title: {data.title}
             </Typography>
             <Typography gutterBottom variant="h6" component="div">
-              {data.singer}
+              Singer: {data.singer}
             </Typography>
-            <Typography variant="body2">{data.descriptionOfSong}</Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions
-          style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}
-        >
-          <IconButton onClick={()=>{setEditModalHandler(true);
-          setEditSongData(data);
-          
-          }}>
-            <EditNoteIcon fontSize="large" />
-          </IconButton>
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton onClick={handleOpenModal}>
-            <AddAPhotoIcon />
-          </IconButton>
-        </CardActions>
+            <Typography variant="body2">Description: {data.descriptionOfSong}</Typography>
+          </div>
+        )}
+        {/* </CardContent> */}
+        {/* </CardActionArea> */}
+        {/* <CardActions
+          style={{
+            paddingTop: "0px",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "0%",
+          }}
+        > */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+          {isEditing ? (
+            <>
+              <Button variant="outlined" fullWidth size="small" color="success" onClick={handleSave}>
+                Update
+              </Button>
+              {/* <IconButton  color="primary" onClick={handleSave}>
+                <CheckCircleIcon fontSize="small"   />
+              </IconButton> */}
+              {/* <IconButton onClick={handleCancel}>
+                <DeleteIcon />
+              </IconButton> */}
+            </>
+          ) : (
+            <></>
+          )}
+          {!isEditing && (
+            <>
+              {!isEditing && (
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+                  <IconButton onClick={handleEdit}>
+                    <EditNoteIcon fontSize="large" />
+                  </IconButton>
+                  <IconButton onClick={handleDelete}>
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton onClick={handleOpenModal}>
+                    <AddAPhotoIcon />
+                  </IconButton>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+        {/* </CardActions> */}
       </Card>
 
       {/* Image Upload Modal */}
-      <Modal open={openModal} onClose={handleCloseModal}>
+          <Modal open={openModal} onClose={handleCloseModal}>
         <div
           style={{
             position: "absolute",

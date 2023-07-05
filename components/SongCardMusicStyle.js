@@ -10,6 +10,7 @@ import {
   IconButton,
   TextField,
   Modal,
+  Chip,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -222,15 +223,21 @@ export default function SongCardMusicStyle({ data, update, setUpdate }) {
             />
           </div>
         ) : (
-          <div style={{marginTop:"20px",marginLeft:"10px"}}>
-            <Typography gutterBottom variant="h6" component="div">
-              Song Title: {data.title}
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div">
-              Singer: {data.singer}
-            </Typography>
-            <Typography variant="body2">Description: {data.descriptionOfSong}</Typography>
-          </div>
+           <div style={{marginTop:"20px",marginLeft:"10px",display:"flex",flexDirection:"column",justifyContent:"center"}}>
+           
+<Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px" 
+  }} label={`Song Title: ${data.title}`} />
+             
+             
+               
+            <Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px"  
+  }} label={` Singer: ${data.singer}`} />
+     <Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)", marginTop:"5px" 
+  }} label={`Description: ${data.descriptionOfSong}`} />
+           </div>
         )}
         {/* </CardContent> */}
         {/* </CardActionArea> */}

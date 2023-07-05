@@ -10,6 +10,7 @@ import {
   IconButton,
   TextField,
   Modal,
+  Chip,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -206,7 +207,8 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
               label="Singer"
               variant="standard"
               size="small"
-              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)" }}
+              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)", }}
+   
               value={editedData.singer || ""}
               onChange={handleInputChange}
             />
@@ -222,15 +224,21 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
             />
           </div>
         ) : (
-          <div style={{marginTop:"20px",marginLeft:"10px"}}>
-            <Typography gutterBottom variant="h6" component="div">
-              Song Title: {data.title}
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div">
-              Singer: {data.singer}
-            </Typography>
-            <Typography variant="body2">Description: {data.descriptionOfSong}</Typography>
-          </div>
+          <div style={{marginTop:"20px",marginLeft:"10px",display:"flex",flexDirection:"column",justifyContent:"center"}}>
+           
+<Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px" 
+  }} label={`Song Title: ${data.title}`} />
+             
+             
+               
+            <Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px"  
+  }} label={` Singer: ${data.singer}`} />
+     <Chip  sx={{
+    backgroundColor: "rgba(63, 1, 74, 0.5)", marginTop:"5px" 
+  }} label={`Description: ${data.descriptionOfSong}`} />
+           </div>
         )}
         {/* </CardContent> */}
         {/* </CardActionArea> */}
@@ -245,7 +253,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
           {isEditing ? (
             <>
-              <Button variant="outlined" fullWidth size="small" color="success" onClick={handleSave}>
+              <Button variant="contained" fullWidth size="small" color="success" onClick={handleSave}>
                 Update
               </Button>
               {/* <IconButton  color="primary" onClick={handleSave}>

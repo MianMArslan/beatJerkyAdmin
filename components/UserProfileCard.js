@@ -88,10 +88,8 @@ setIsUsersUpdated(!isUsersUpdated);
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/profile-images/${data.coverImageURL}`}
           sx={{  width: 100, height: 100 }}
         />
-        <Typography gutterBottom variant="h5" component="div">
-          {data.firstName?data.firstName:"N/A"}
-         &nbsp; {data.lastName}
-        </Typography>
+        
+        <Chip label={data.firstName?` ${data.firstName}  ${data.lastName}`:"N/A"} />
         <Typography variant="body2">Following: 22 | Followers: 250</Typography>
 
         {data.isDeleted?(<Button onClick={handleActivateUser} style={{ backgroundColor: "#00d438", marginTop: "15px" }}>

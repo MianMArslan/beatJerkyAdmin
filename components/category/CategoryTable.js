@@ -13,13 +13,16 @@ import {
 } from "@mui/material";
 import { GET, DELETE, UPDATE } from "../../services/httpClient";
 import { AppContext } from "@/context/appContext";
+import { useRouter } from "next/router";
 
 const Category = (props) => {
-     const {isUpdated } = useContext(AppContext);
+     const {isUpdated ,setSnackbarState} = useContext(AppContext);
   const [tableData, setTableData] = useState([]);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
+    const [allSongs, setAllSongs] = useState();
 
+const router=useRouter();
   const fetchData = async () => {
     try {
       const response = await GET("/category");
@@ -29,7 +32,16 @@ const Category = (props) => {
       console.error("Failed to fetch category data:", error);
     }
   };
+async function getAllSongs(){
+      const searchQuery = router.query.search || '';
 
+    // Construct the API endpoint URL with the search query parameter
+    const endpoint = `/song?search=${encodeURIComponent(searchQuery)}`;
+    
+    const response = await GET(endpoint);
+    setAllSongs(response.songs)
+    console.log("🚀 ~ file: CategoryTable.js:39 ~ getAllSongs ~ response:", response)
+}
   const handleUpdate = async (categoryId) => {
     try {
       await UPDATE(`/category/${categoryId}`, updatedData);
@@ -37,18 +49,50 @@ const Category = (props) => {
       setEditingCategoryId(null);
       setUpdatedData({});
       fetchData();
+          setSnackbarState({
+          severity: "success",
+          open: true,
+          message: `Category Updated!`,
+        });
     } catch (error) {
       console.error(`Failed to update category with ID: ${categoryId}`, error);
+          setSnackbarState({
+          severity: "error",
+          open: true,
+          message: `Failed to update category with ID: ${categoryId}`,
+        });
     }
   };
 
   const handleDelete = async (categoryId) => {
+    for(let song of allSongs)
+    {
+      if(song.songCategoryID==categoryId){
+  setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Can not delete category as songs are added with this category",
+        });
+        return;
+      }
+
+    }
     try {
       await DELETE(`/category/${categoryId}`);
       console.log(`Deleted category with ID: ${categoryId}`);
       fetchData();
+       setSnackbarState({
+          severity: "success",
+          open: true,
+          message: `Deleted category with ID: ${categoryId}`,
+        });
     } catch (error) {
       console.error(`Failed to delete category with ID: ${categoryId}`, error);
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: `Failed to delete category with ID: ${categoryId}`,
+        });
     }
   };
 
@@ -66,6 +110,7 @@ const Category = (props) => {
   };
   useEffect(() => {
     fetchData();
+    getAllSongs();
   }, [isUpdated]);
   return (
     <TableContainer component={Paper}>

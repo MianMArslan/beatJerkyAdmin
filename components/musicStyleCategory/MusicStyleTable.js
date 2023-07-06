@@ -13,18 +13,20 @@ import {
 } from "@mui/material";
 import { GET, DELETE, UPDATE } from "../../services/httpClient";
 import { AppContext } from "@/context/appContext";
+import { useRouter } from "next/router";
 
 const MusicStyleTable = (props) => {
     const {
   
- 
+ setSnackbarState,
     isUpdated,
    
   } = useContext(AppContext);
- 
+ const router=useRouter();
   const [tableData, setTableData] = useState([]);
   const [editingMusicStyleId, setEditingMusicStyleId] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
+    const [allSongs, setAllSongs] = useState();
 
   const fetchData = async () => {
     try {
@@ -35,7 +37,16 @@ const MusicStyleTable = (props) => {
       console.error("Failed to fetch musicStyle data:", error);
     }
   };
+async function getAllSongs(){
+      const searchQuery = router.query.search || '';
 
+    // Construct the API endpoint URL with the search query parameter
+    const endpoint = `/musicStyleSongs?search=${encodeURIComponent(searchQuery)}`;
+    
+    const response = await GET(endpoint);
+    setAllSongs(response.songs)
+    console.log("🚀 ~ file: CategoryTable.js:39 ~ getAllSongs ~ response:", response)
+}
   const handleUpdate = async (musicStyleId) => {
     try {
       await UPDATE(`/musicStyle/${musicStyleId}`, updatedData);
@@ -43,17 +54,49 @@ const MusicStyleTable = (props) => {
       setEditingMusicStyleId(null);
       setUpdatedData({});
       fetchData();
+          setSnackbarState({
+          severity: "success",
+          open: true,
+          message: `Music Style Category Updated!`,
+        });
     } catch (error) {
       console.error(`Failed to update musicStyle with ID: ${musicStyleId}`, error);
+            setSnackbarState({
+          severity: "error",
+          open: true,
+          message: `Failed to update musicStyle with ID: ${musicStyleId}`,
+        });
     }
   };
 
   const handleDelete = async (musicStyleId) => {
+       for(let song of allSongs)
+    {
+      if(song.songCategoryID==musicStyleId){
+  setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Can not delete category as songs are added with this category",
+        });
+        return;
+      }
+
+    }
     try {
       await DELETE(`/musicStyle/${musicStyleId}`);
       console.log(`Deleted musicStyle with ID: ${musicStyleId}`);
       fetchData();
+               setSnackbarState({
+          severity: "success",
+          open: true,
+          message: `Deleted musicStyle with ID: ${musicStyleId}`,
+        });
     } catch (error) {
+              setSnackbarState({
+          severity: "success",
+          open: true,
+          message: `Failed to delete musicStyle with ID: ${musicStyleId}`,
+        });
       console.error(`Failed to delete musicStyle with ID: ${musicStyleId}`, error);
     }
   };
@@ -71,6 +114,8 @@ const MusicStyleTable = (props) => {
     }));
   };
   useEffect(() => {
+        getAllSongs();
+
     fetchData();
   }, [isUpdated]);
   return (

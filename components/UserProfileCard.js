@@ -101,7 +101,7 @@ export default function UserProfileCard(props) {
         )}
         <Avatar
           alt={data.firstName ? data.firstName : "N/A"}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/${data.profileImg}`}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data.profileImg?.replace('public', '')}`}
           sx={{ width: 100, height: 100 }}
         />
 

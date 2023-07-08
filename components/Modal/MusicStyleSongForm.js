@@ -114,8 +114,7 @@ const MusicStyleSongForm = () => {
 
         return;
       }
-    console.log("🚀 ~ file: MusicStyleSongForm.js:18 ~ MusicStyleSongForm ~ musicStyleCategoriesList:", musicStyleCategoriesList)
-
+ 
       console.log("Song created successfully:", createResponse);
       setSnackbarState({
         severity: "success",

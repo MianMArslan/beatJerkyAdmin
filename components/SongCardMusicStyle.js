@@ -186,7 +186,7 @@ export default function SongCardMusicStyle({ data, update, setUpdate }) {
         },
       }}
     >
-      <Card sx={{ width: "inherit", height: "inherit", background: `${gradient}` }}>
+      <Card sx={{ width: "inherit", height: "inherit",paddingRight:"8px", background: `${gradient}` }}>
         {/* <CardActionArea> */}
         {/* <CardContent style={{ paddingBottom: "0px" }}> */}
         {isEditing ? (

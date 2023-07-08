@@ -48,7 +48,7 @@ export async function POST_WITHOUT_TOKEN(url, params) {
   });
   try {
     const response = await httpClient.post(url, params);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     return {
       error,

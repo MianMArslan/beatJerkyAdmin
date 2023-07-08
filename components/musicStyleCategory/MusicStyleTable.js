@@ -45,8 +45,7 @@ async function getAllSongs(){
     
     const response = await GET(endpoint);
     setAllSongs(response.songs)
-    console.log("🚀 ~ file: CategoryTable.js:39 ~ getAllSongs ~ response:", response)
-}
+ }
   const handleUpdate = async (musicStyleId) => {
     try {
       await UPDATE(`/musicStyle/${musicStyleId}`, updatedData);

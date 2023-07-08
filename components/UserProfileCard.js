@@ -11,8 +11,7 @@ import { UPDATE, GET } from "../services/httpClient";
 export default function UserProfileCard(props) {
   const { isLoading, setIsLoading, setSnackbarState, isUsersUpdated, setIsUsersUpdated } = useContext(AppContext);
   const { data } = props;
-  console.log("🚀 ~ file: UserProfileCard.js:14 ~ UserProfileCard ~ data:", data)
-  const cardStyle = {
+   const cardStyle = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

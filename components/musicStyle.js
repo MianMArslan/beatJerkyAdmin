@@ -42,8 +42,7 @@ function MusicStyle() {
 const fetchData = async () => {
   try {
     const responseOfCategory = await GET("/musicStyle");
-    console.log("🚀 ~ file: musicStyle.js:46 ~ fetchData ~ responseOfCategory:", responseOfCategory.data)
-    setMusicStyleCategoriesList(responseOfCategory.data);
+     setMusicStyleCategoriesList(responseOfCategory.data);
     
     // Get the search query parameter from the URL
     const searchQuery = router.query.search || '';

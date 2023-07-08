@@ -174,6 +174,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
   return (
     <Card
       sx={{
+        
         width: 250,
         height: 200,
         backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`,
@@ -186,7 +187,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         },
       }}
     >
-      <Card sx={{ width: "inherit", height: "inherit", background: `${gradient}` }}>
+      <Card sx={{ width: "inherit", height: "inherit",paddingRight:"8px", background: `${gradient}` }}>
         {/* <CardActionArea> */}
         {/* <CardContent style={{ paddingBottom: "0px" }}> */}
         {isEditing ? (

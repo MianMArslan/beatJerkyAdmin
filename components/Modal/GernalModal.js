@@ -35,8 +35,7 @@ const style = {
  
 export default function BasicModal(props) {
   const { modalHandler, modalType, setModalType,setModalHandler } = useContext(AppContext);
-  console.log("🚀 ~ file: GernalModal.js:37 ~ BasicModal ~ modalType:", modalType)
-
+ 
   const {   update, setUpdate } = props;
 
   return (

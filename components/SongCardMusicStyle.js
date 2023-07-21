@@ -20,6 +20,7 @@ import { DELETE, UPDATE, UPLOAD_FORM_DATA } from "../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 export default function SongCardMusicStyle({ data, update, setUpdate }) {
+  console.log("🚀 ~ file: SongCardMusicStyle.js:23 ~ SongCardMusicStyle ~ data:", data)
   const {
     setSnackbarState,
     setIsLoading,
@@ -176,7 +177,7 @@ export default function SongCardMusicStyle({ data, update, setUpdate }) {
       sx={{
         width: 250,
         height: 200,
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/music-style-cover-photos/${data.coverImageURL})`,
+       backgroundImage:`url(${process.env.NEXT_PUBLIC_BASE_URL}${data.coverImageURL?.replace('public', '')})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         transition: "transform 0.3s, box-shadow 0.3s",

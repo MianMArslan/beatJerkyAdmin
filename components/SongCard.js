@@ -177,7 +177,10 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         
         width: 250,
         height: 200,
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`,
+        //  src={`${process.env.NEXT_PUBLIC_BASE_URL}${data.profileImg?.replace('public', '')}`}
+                  backgroundImage:`url(${process.env.NEXT_PUBLIC_BASE_URL}${data.coverImageURL?.replace('public', '')})`,
+
+        // backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         transition: "transform 0.3s, box-shadow 0.3s",
@@ -188,8 +191,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
       }}
     >
       <Card sx={{ width: "inherit", height: "inherit",paddingRight:"8px", background: `${gradient}` }}>
-        {/* <CardActionArea> */}
-        {/* <CardContent style={{ paddingBottom: "0px" }}> */}
+    
         {isEditing ? (
           <div>
             <TextField
@@ -241,28 +243,14 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
   }} label={`Description: ${data.descriptionOfSong}`} />
            </div>
         )}
-        {/* </CardContent> */}
-        {/* </CardActionArea> */}
-        {/* <CardActions
-          style={{
-            paddingTop: "0px",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "0%",
-          }}
-        > */}
+      
         <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
           {isEditing ? (
             <>
               <Button variant="contained" fullWidth size="small" color="success" onClick={handleSave}>
                 Update
               </Button>
-              {/* <IconButton  color="primary" onClick={handleSave}>
-                <CheckCircleIcon fontSize="small"   />
-              </IconButton> */}
-              {/* <IconButton onClick={handleCancel}>
-                <DeleteIcon />
-              </IconButton> */}
+          
             </>
           ) : (
             <></>
@@ -285,7 +273,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
             </>
           )}
         </div>
-        {/* </CardActions> */}
+  
       </Card>
 
       {/* Image Upload Modal */}

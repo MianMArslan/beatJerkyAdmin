@@ -1,27 +1,18 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 
-import SongCard from "../SongCard.js";
-import SearchIcon from "@mui/icons-material/Search";
+// import SongCard from "../SongCard.js";
+// import SearchIcon from "@mui/icons-material/Search";
 
-import { useState, useContext } from "react";
-import CategoryTable from "./CategoryTable.js";
-import GernalModal from "../Modal/GernalModal.js";
-import { useEffect } from "react";
-import { AppContext } from "../../context/appContext";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../context/appContext.js";
+import StoreCategoryTable from "./StoreCategoryTable.js";
+import StoreCategoryModal from "./StoreCategoryModal.js";
 function Category() {
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
 
-  const { modalHandler, setModalHandler,setModalType } = useContext(AppContext);
+  const { modalHandler, setModalHandler, setModalType } =
+    useContext(AppContext);
 
   const handleClose = () => {
     setOpen(false);
@@ -36,10 +27,10 @@ function Category() {
   };
   return (
     <>
-      <GernalModal
+      <StoreCategoryModal
         open={modalHandler}
         close={handleClose}
-         update={update}
+        update={update}
         setUpdate={setUpdate}
       />
 
@@ -51,7 +42,7 @@ function Category() {
             marginTop: "5vh",
           }}
         >
-          <Typography variant="h5">Songs Categories</Typography>
+          <Typography variant="h5">Store Categories</Typography>
         </div>
 
         <div
@@ -62,15 +53,18 @@ function Category() {
           }}
         >
           <Button
-            onClick={() => {setModalType("category");setModalHandler(true);}}
+            onClick={() => {
+              setModalType("category");
+              setModalHandler(true);
+            }}
             variant="contained"
             style={buttonStyle}
           >
-            Add Category
+            Add Store Category
           </Button>
         </div>
 
-        <CategoryTable update={update} />
+        <StoreCategoryTable update={update} />
       </Container>
     </>
   );

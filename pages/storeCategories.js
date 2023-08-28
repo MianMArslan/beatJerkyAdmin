@@ -1,16 +1,16 @@
-import Category from "../components/category/Category.js";
+import StoreCategory from "../components/StoreCategory";
 import AppBar from "../components/AppBar.js";
 import SecurePage from "@/components/SecurePage.js";
 
-function login() {
+function StoreCategories() {
   return (
     <>
       <SecurePage>
         <AppBar />
-        <Category />
+        <StoreCategory />
       </SecurePage>
     </>
   );
 }
 
-export default login;
+export default StoreCategories;

@@ -14,8 +14,13 @@ import { POST, UPLOAD_FORM_DATA, GET } from "../../services/httpClient";
 import { AppContext } from "@/context/appContext";
 
 const SongForm = () => {
-  const { categoriesList, setSnackbarState, setModalHandler ,setIsUpdated,isUpdated} =
-    useContext(AppContext);
+  const {
+    categoriesList,
+    setSnackbarState,
+    setModalHandler,
+    setIsUpdated,
+    isUpdated,
+  } = useContext(AppContext);
 
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
@@ -121,7 +126,7 @@ const SongForm = () => {
         open: true,
         message: "Song created successfully",
       });
-setIsUpdated(!isUpdated);
+      setIsUpdated(!isUpdated);
       // Reset the form data
       setSongData({
         title: "",
@@ -144,8 +149,6 @@ setIsUpdated(!isUpdated);
     }
     setModalHandler(false);
   };
-
-  
 
   return (
     <>

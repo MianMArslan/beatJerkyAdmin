@@ -5,16 +5,33 @@ import react, { useEffect, useRef } from "react";
 export default function StoreNavigator() {
   const router = useRouter();
   const storeId = useRef(null);
+  const storeName = useRef(null);
+  const storeImage = useRef(null);
   useEffect(() => {
-    if (router.query.storeId) storeId.current = router.query.storeId;
-  }, [router.query.storeId]);
+    if (
+      router.query.storeId &&
+      router.query.storeName &&
+      router.query.storeImage
+    ) {
+      storeId.current = router.query.storeId;
+      storeName.current = router.query.storeName;
+      storeImage.current = router.query.storeImage;
+    }
+  }, [router.query.storeId, router.query.storeName, router.query.storeImage]);
+  const buttonStyle = {
+    backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
+    color: "white",
+    fontWeight: "bold",
+  };
   return (
     <>
       <Box display={"flex"} justifyContent={"center"}>
         <ButtonGroup>
           <Button
             onClick={() => {
-              router.push(`/selectedStore/products?storeId=${storeId.current}`);
+              router.push(
+                `/selectedStore/products?storeId=${storeId.current}&&storeName=${storeName.current}&&storeImage=${storeImage.current}`
+              );
             }}
             style={{ width: "120px" }}
             variant={
@@ -27,7 +44,9 @@ export default function StoreNavigator() {
           </Button>
           <Button
             onClick={() => {
-              router.push(`/selectedStore/feed?storeId=${storeId.current}`);
+              router.push(
+                `/selectedStore/feed?storeId=${storeId.current}&&storeName=${storeName.current}&&storeImage=${storeImage.current}`
+              );
             }}
             style={{ width: "120px" }}
             variant={
@@ -40,7 +59,9 @@ export default function StoreNavigator() {
           </Button>
           <Button
             onClick={() => {
-              router.push(`/selectedStore/chat?storeId=${storeId.current}`);
+              router.push(
+                `/selectedStore/chat?storeId=${storeId.current}&&storeName=${storeName.current}&&storeImage=${storeImage.current}`
+              );
             }}
             style={{ width: "120px" }}
             variant={

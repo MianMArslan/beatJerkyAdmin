@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import { parseCookies } from "nookies";
+import { AppContext } from "@/context/appContext";
+import SimpleBackdrop from "./SimpleBackdrop";
 
 const SecurePage = ({ children }) => {
   const router = useRouter();
@@ -29,7 +31,7 @@ const SecurePage = ({ children }) => {
   }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <SimpleBackdrop />;
   }
 
   return <>{children}</>;

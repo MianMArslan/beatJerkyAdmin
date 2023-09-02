@@ -30,9 +30,11 @@ function Login() {
 
     try {
       const response = await POST("/auth/login", params); // Send a POST request to the login API endpoint
+
       console.log(response); // Handle the response as per your requirements
 
       if (response && response.status == "success") {
+        localStorage.setItem("userData", JSON.stringify(response.data));
         router.push("/home");
       } else {
         // Login failed, handle the error
@@ -55,8 +57,8 @@ function Login() {
     }
     setIsLoading(false);
   };
-    const handleForgotPassword = async () => {
- router.push("/forgotPassword");
+  const handleForgotPassword = async () => {
+    router.push("/forgotPassword");
   };
 
   const buttonStyle = {

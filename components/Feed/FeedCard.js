@@ -7,9 +7,9 @@ import { CardActionArea } from "@mui/material";
 import { useRouter } from "next/router";
 
 export default function ActionAreaCard({
-  storeName,
-  storeDescription,
-  storeImage,
+  feedDescription,
+
+  feedImage,
   id,
 }) {
   const router = useRouter();
@@ -29,17 +29,11 @@ export default function ActionAreaCard({
         backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
       }}
     >
-      <CardActionArea
-        onClick={() => {
-          router.push(
-            `/selectedStore/products?storeId=${id}&&storeName=${storeName}&&storeImage=${storeImage}`
-          );
-        }}
-      >
+      <CardActionArea>
         <CardMedia
           component="img"
           height="150"
-          image={`${process.env.NEXT_PUBLIC_BASE_URL}${storeImage?.replace(
+          image={`${process.env.NEXT_PUBLIC_BASE_URL}${feedImage?.replace(
             "public",
             ""
           )}`}
@@ -47,10 +41,7 @@ export default function ActionAreaCard({
         />
         <CardContent sx={{ padding: "5px" }}>
           <Typography gutterBottom variant="h6">
-            {storeName}
-          </Typography>
-          <Typography variant="body2" mt={-1}>
-            {storeDescription}
+            {feedDescription}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -26,6 +26,7 @@ export default function CustomizedMenus() {
   };
   const handleLogout = () => {
     destroyCookie(null, "accessToken"); // Clear the accessToken cookie
+    localStorage.removeItem("userData");
     router.push("/login"); // Redirect to the login page
   };
   return (

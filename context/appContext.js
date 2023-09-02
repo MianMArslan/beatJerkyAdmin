@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 // import {GET } from '../services/httpClient';
 
 export const AppContext = createContext();
@@ -9,6 +9,7 @@ const AppContextProvider = ({ children }) => {
   const [editSongData, setEditSongData] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [categoriesList, setCategoriesList] = useState(null);
   const [storeCategoriesList, setStoreCategoriesList] = useState(null);
   const [musicStyleCategoriesList, setMusicStyleCategoriesList] =
@@ -27,6 +28,9 @@ const AppContextProvider = ({ children }) => {
   });
 
   const value = {
+    selectedUser,
+    setSelectedUser,
+
     modalType,
     setModalType,
     editSongData,

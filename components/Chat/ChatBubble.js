@@ -14,7 +14,7 @@ function ChatBubble({ message, color }) {
       display="inline-block" // Keeps the bubbles inline
     >
       <Typography variant="body1" style={{ wordWrap: "break-word" }}>
-        {message}sdfasdfasdfasdfsdf asfas sdf asdf asdf asdf asdf asdf
+        {message}
       </Typography>
     </Box>
   );

@@ -7,9 +7,9 @@ import { CardActionArea } from "@mui/material";
 import { useRouter } from "next/router";
 
 export default function ActionAreaCard({
-  feedDescription,
+  description,
 
-  feedImage,
+  imageUrl,
   id,
 }) {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function ActionAreaCard({
         <CardMedia
           component="img"
           height="150"
-          image={`${process.env.NEXT_PUBLIC_BASE_URL}${feedImage?.replace(
+          image={`${process.env.NEXT_PUBLIC_BASE_URL}${imageUrl?.replace(
             "public",
             ""
           )}`}
@@ -41,7 +41,7 @@ export default function ActionAreaCard({
         />
         <CardContent sx={{ padding: "5px" }}>
           <Typography gutterBottom variant="h6">
-            {feedDescription}
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>

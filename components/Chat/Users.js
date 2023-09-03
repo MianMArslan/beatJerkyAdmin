@@ -70,10 +70,7 @@ export default function AlignItemsList() {
   }
   setInterval(() => {
     getAllUsers();
-  }, 2000);
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+  }, 6000);
 
   return (
     <div style={{ overflowY: "auto", maxHeight: "300px" }}>

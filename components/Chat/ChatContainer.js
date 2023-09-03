@@ -22,10 +22,7 @@ import { GET, POST } from "@/services/httpClient.js";
 
 function ChatContainer() {
   const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log(
-    "🚀 ~ file: ChatContainer.js:25 ~ ChatContainer ~ userData:",
-    userData
-  );
+
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState([]);
   const { selectedUser, setSelectedUser } = useContext(AppContext);

@@ -23,7 +23,7 @@ function Feed() {
 
   const fetchData = async () => {
     try {
-      const res = await GET(`/feed?userId=${userData.userId}`);
+      const res = await GET(`/feed/storeFeed?storeId=${router.query.storeId}`);
       console.log("🚀 ~ file: index.js:31 ~ fetchData ~ res:", res);
 
       setList(res.data);
@@ -45,9 +45,8 @@ function Feed() {
             list.map((element) => (
               <Grid item sm={4}>
                 <FeedCard
-                  storeName={element.storeName}
-                  storeDescription={element.storeDescription}
-                  storeImage={element.storeImage}
+                  description={element.description}
+                  imageUrl={element.imageUrl}
                   id={element.id}
                 />
               </Grid>

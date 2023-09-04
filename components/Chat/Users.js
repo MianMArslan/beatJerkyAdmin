@@ -15,7 +15,6 @@ import Badge from "@mui/material/Badge";
 import { AppContext } from "@/context/appContext";
 import { useContext } from "react";
 
-// Define a styled Badge component for the blinking effect
 const BlinkingBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: theme.palette.error.main, // Red color for offline users
@@ -68,9 +67,18 @@ export default function AlignItemsList() {
       console.error("An error occurred while fetching users:", error);
     }
   }
-  setInterval(() => {
+
+  useEffect(() => {
     getAllUsers();
-  }, 6000);
+
+    const userFetchInterval = setInterval(() => {
+      getAllUsers();
+    }, 2000);
+
+    return () => {
+      clearInterval(userFetchInterval);
+    };
+  }, [selectedUser, router.query.storeId]);
 
   return (
     <div style={{ overflowY: "auto", maxHeight: "300px" }}>

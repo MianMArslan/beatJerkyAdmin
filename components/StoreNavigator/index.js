@@ -26,7 +26,7 @@ export default function StoreNavigator() {
   return (
     <>
       <Box display={"flex"} justifyContent={"center"}>
-        <ButtonGroup>
+        <ButtonGroup color="secondary">
           <Button
             onClick={() => {
               router.push(

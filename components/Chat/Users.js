@@ -95,7 +95,7 @@ export default function AlignItemsList() {
                   key={index}
                 >
                   <ListItemAvatar>
-                    {user.isOnline ? (
+                    {user.sender.isOnline ? (
                       <BlinkingBadge
                         overlap="circular"
                         anchorOrigin={{

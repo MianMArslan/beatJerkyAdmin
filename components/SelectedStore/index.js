@@ -17,7 +17,7 @@ export default function SelectedStore() {
     fontWeight: "bold",
   };
   const [list, setList] = useState([]);
-
+  const [isUpdated, setIsUpdated] = useState(false);
   const fetchData = async () => {
     try {
       const response = await GET(`/products/${router.query.storeId}`);
@@ -29,16 +29,27 @@ export default function SelectedStore() {
   };
   useEffect(() => {
     fetchData();
-  }, [router.query.storeId]);
+  }, [router.query.storeId, isUpdated]);
   return (
     <Box mt={1} p={5}>
       <StoreNavigator />
-      <ProductModal />
+      <ProductModal isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
       <Grid container>
         {" "}
         {list?.map((element) => (
-          <Grid item sm={4}>
-            <ProductCard details={element} />
+          <Grid
+            item
+            sm={12}
+            md={6}
+            lg={4}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <ProductCard
+              details={element}
+              isUpdated={isUpdated}
+              setIsUpdated={setIsUpdated}
+            />
           </Grid>
         ))}
       </Grid>

@@ -1,64 +1,52 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  CssBaseline,
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
-import styles from "./login.module.css";
-import theme from "../themes/theme.js";
-import Image from "next/image";
-import { display } from "@material-ui/system";
-import { ThemeProvider } from "@emotion/react";
-import UserProfileCard from "./UserProfileCard.js";
+import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import { GET, DELETE, UPDATE } from "../services/httpClient";
+import { Button, Container, Grid, IconButton, TextField } from "@mui/material";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/appContext";
-import CloseIcon from '@mui/icons-material/Close';
-import { useRouter } from "next/router";
+import { GET } from "../services/httpClient";
+import UserProfileCard from "./UserProfileCard.js";
 
 function Users() {
-    const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(false);
 
-  const router=useRouter();
-    const { isLoading, setIsLoading, setSnackbarState , isUsersUpdated,
-     setIsUsersUpdated, } = useContext(AppContext);
+  const router = useRouter();
+  const {
+    isLoading,
+    setIsLoading,
+    setSnackbarState,
+    isUsersUpdated,
+    setIsUsersUpdated,
+  } = useContext(AppContext);
 
   const [list, setList] = useState([]);
   const handleSearch = () => {
-   
-        router.push({
+    router.push({
       pathname: router.route,
-      query: { search: search, }
+      query: { search: search },
     });
   };
-const fetchData = async () => {
-  try {
-    // Get the search query parameter from the URL
-    const searchQuery = router.query.search || '';
+  const fetchData = async () => {
+    try {
+      // Get the search query parameter from the URL
+      const searchQuery = router.query.search || "";
 
-    // Construct the API endpoint URL with the search query parameter
-    const endpoint = `/users?search=${encodeURIComponent(searchQuery)}`;
+      // Construct the API endpoint URL with the search query parameter
+      const endpoint = `/users?search=${encodeURIComponent(searchQuery)}`;
 
-    const response = await GET(endpoint);
-    setList(response.data);
-    console.log("Fetched users:", response.data);
-  } catch (error) {
-    console.error("Failed to fetch users:", error);
-  }
-};
-  function handleChangeSearch(e){
- 
- setSearch(e.target.value)
+      const response = await GET(endpoint);
+      setList(response.data);
+      console.log("Fetched users:", response.data);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+  function handleChangeSearch(e) {
+    setSearch(e.target.value);
   }
   useEffect(() => {
     fetchData();
-  }, [isUsersUpdated,router]);
+  }, [isUsersUpdated, router]);
   const buttonStyle = {
     backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
     color: "white",
@@ -79,24 +67,23 @@ const fetchData = async () => {
           }}
         >
           <TextField
-          onChange={handleChangeSearch}
+            onChange={handleChangeSearch}
             label="Search User"
             fullWidth
-                  InputProps={{
+            InputProps={{
               endAdornment: (
                 <>
-                <IconButton
-                 onClick={()=>(router.push(  router.route))}>
-                <CloseIcon  />
+                  <IconButton onClick={() => router.push(router.route)}>
+                    <CloseIcon />
                   </IconButton>
-                <Button
-                  variant="contained"
-                  style={buttonStyle}
-                  endIcon={<SearchIcon />}
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
+                  <Button
+                    variant="contained"
+                    style={buttonStyle}
+                    endIcon={<SearchIcon />}
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
                 </>
               ),
             }}

@@ -13,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 import Autocomplete from "@mui/material/Autocomplete"; // Import Autocomplete
 import { AppContext } from "@/context/appContext";
 import { POST, UPLOAD_FORM_DATA } from "../../services/httpClient";
-const StoreModal = () => {
+const StoreModal = ({ isUpdated, setIsUpdated }) => {
   const { storeCategoriesList, setIsLoading, setSnackbarState } =
     useContext(AppContext);
   const [open, setOpen] = useState(false);
@@ -45,6 +45,7 @@ const StoreModal = () => {
         handleClose();
         throw new Error("Failed to create store");
       }
+      setIsUpdated(!isUpdated);
       setSnackbarState({
         severity: "success",
         open: true,
@@ -52,6 +53,7 @@ const StoreModal = () => {
       });
       handleClose();
       setIsLoading(false);
+
       return response;
     } catch (error) {
       setIsLoading(false);
@@ -86,12 +88,7 @@ const StoreModal = () => {
   };
 
   // Simulated store categories for autocomplete
-  const storeCategories = [
-    { id: 1, name: "Category 1" },
-    { id: 2, name: "Category 2" },
-    { id: 3, name: "Category 3" },
-    // ... Add more categories
-  ];
+
   useEffect(() => {}, [storeCategoriesList]);
 
   return (
@@ -200,6 +197,7 @@ const StoreModal = () => {
           </Grid>
           <Divider sx={{ margin: "10px 0", background: "white" }} />
           <Button
+            style={buttonStyle}
             variant="contained"
             color="primary"
             fullWidth

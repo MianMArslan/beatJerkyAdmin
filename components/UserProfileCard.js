@@ -2,22 +2,29 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Avatar, Button, LinearProgress } from "@material-ui/core";
+import { Avatar, Button, LinearProgress } from "@mui/material";
 import { Chip } from "@mui/material";
 import { AppContext } from "../context/appContext";
 import { useContext } from "react";
 import { UPDATE, GET } from "../services/httpClient";
 
 export default function UserProfileCard(props) {
-  const { isLoading, setIsLoading, setSnackbarState, isUsersUpdated, setIsUsersUpdated } = useContext(AppContext);
+  const {
+    isLoading,
+    setIsLoading,
+    setSnackbarState,
+    isUsersUpdated,
+    setIsUsersUpdated,
+  } = useContext(AppContext);
   const { data } = props;
-   const cardStyle = {
+  const cardStyle = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     minHeight: 200,
-    background: "linear-gradient(to bottom, rgba(1, 1, 87, 1), rgba(222, 0, 247, 1))",
+    background:
+      "linear-gradient(to bottom, rgba(1, 1, 87, 1), rgba(222, 0, 247, 1))",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
@@ -94,19 +101,37 @@ export default function UserProfileCard(props) {
       {isLoadingCard && <LinearProgress />}
       <CardContent style={cardStyle}>
         {data.isDeleted ? (
-          <Chip color="error" sx={{ marginBottom: "10px" }} size="small" label="Deleted" />
+          <Chip
+            color="error"
+            sx={{ marginBottom: "10px" }}
+            size="small"
+            label="Deleted"
+          />
         ) : (
-          <Chip color="success" sx={{ marginBottom: "10px" }} size="small" label="Active" />
+          <Chip
+            color="success"
+            sx={{ marginBottom: "10px" }}
+            size="small"
+            label="Active"
+          />
         )}
         <Avatar
           alt={data.firstName ? data.firstName : "N/A"}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data.profileImg?.replace('public', '')}`}
-          sx={{ width: 100, height: 100 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data.profileImg?.replace(
+            "public",
+            ""
+          )}`}
+          sx={{ width: 40, height: 40 }}
         />
 
-        <Chip label={data.firstName ? ` ${data.firstName}  ${data.lastName}` : "N/A"} />
+        <Chip
+          label={
+            data.firstName ? ` ${data.firstName}  ${data.lastName}` : "N/A"
+          }
+        />
         <Typography variant="body2">
-          Following: {response?.data.following} | Followers: {response?.data.follower}
+          Following: {response?.data.following} | Followers:{" "}
+          {response?.data.follower}
         </Typography>
 
         {data.isDeleted ? (
@@ -114,14 +139,14 @@ export default function UserProfileCard(props) {
             onClick={handleActivateUser}
             style={{ backgroundColor: "#00d438", marginTop: "15px" }}
           >
-            Activate User
+            <Typography>Activate User</Typography>
           </Button>
         ) : (
           <Button
             onClick={handleSuspendUser}
             style={{ backgroundColor: "#c20000", marginTop: "15px" }}
           >
-            Suspend User
+            <Typography>Suspend User</Typography>
           </Button>
         )}
       </CardContent>

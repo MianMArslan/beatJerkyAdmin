@@ -9,6 +9,7 @@ export default function Stores() {
   const router = useRouter();
 
   const [list, setList] = useState(null);
+  const [isUpdated, setIsUpdated] = useState(false);
   const { storeCategoriesList, setStoreCategoriesList } =
     useContext(AppContext);
   const buttonStyle = {
@@ -37,15 +38,24 @@ export default function Stores() {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isUpdated]);
   return (
     <Box mt={5} p={5}>
-      <StoreModal />
+      <StoreModal isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
       <Grid container>
         {list?.length ? (
           list.map((element) => (
-            <Grid item sm={4}>
+            <Grid
+              item
+              sm={12}
+              md={6}
+              lg={4}
+              display={"flex"}
+              justifyContent={"center"}
+            >
               <StoreCard
+                isUpdated={isUpdated}
+                setIsUpdated={setIsUpdated}
                 storeName={element.storeName}
                 storeDescription={element.storeDescription}
                 storeImage={element.storeImage}

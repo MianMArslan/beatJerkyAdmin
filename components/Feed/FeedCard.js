@@ -3,17 +3,27 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { Box, CardActionArea, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import { DELETE } from "@/services/httpClient";
 export default function ActionAreaCard({
   description,
-
+  isUpdated,
+  setIsUpdated,
   imageUrl,
   id,
 }) {
   const router = useRouter();
-
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  async function deleteFeed() {
+    try {
+      const response = await DELETE(
+        `/feed?userId=${userData.userId}&feedId=${id}`
+      );
+      setIsUpdated(!isUpdated);
+    } catch (error) {}
+  }
   return (
     <Card
       sx={{
@@ -45,6 +55,11 @@ export default function ActionAreaCard({
           </Typography>
         </CardContent>
       </CardActionArea>
+      <Box display={"flex"} justifyContent={"center"}>
+        <IconButton onClick={deleteFeed}>
+          <DeleteIcon />
+        </IconButton>
+      </Box>
     </Card>
   );
 }

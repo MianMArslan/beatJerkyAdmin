@@ -14,7 +14,7 @@ import Autocomplete from "@mui/material/Autocomplete"; // Import Autocomplete
 import { AppContext } from "@/context/appContext";
 import { POST, UPLOAD_FORM_DATA } from "../../services/httpClient";
 import { useRouter } from "next/router";
-const FeedModal = () => {
+const FeedModal = ({ isUpdated, setIsUpdated }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const { storeCategoriesList, setIsLoading, setSnackbarState } =
     useContext(AppContext);
@@ -48,6 +48,7 @@ const FeedModal = () => {
         handleClose();
         throw new Error("Failed to create feed");
       }
+      setIsUpdated(!isUpdated);
       setSnackbarState({
         severity: "success",
         open: true,
@@ -168,6 +169,7 @@ const FeedModal = () => {
           </Grid>
           <Divider sx={{ margin: "10px 0", background: "white" }} />
           <Button
+            style={buttonStyle}
             variant="contained"
             color="primary"
             fullWidth

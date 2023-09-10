@@ -81,6 +81,7 @@ function ChatContainer() {
       }, 2000);
 
       return () => {
+        setSelectedUser(null);
         clearInterval(chatFetchInterval);
       };
     }
@@ -196,6 +197,7 @@ function ChatContainer() {
                     }}
                     value={message}
                     type="text"
+                    placeholder="Enter your message"
                     style={{
                       width: "100%",
                       borderRadius: "18px",

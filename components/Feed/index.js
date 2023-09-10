@@ -20,7 +20,7 @@ function Feed() {
     useContext(AppContext);
   const [list, setList] = useState(null);
   const router = useRouter();
-
+  const [isUpdated, setIsUpdated] = useState(false);
   const fetchData = async () => {
     try {
       const res = await GET(`/feed/storeFeed?storeId=${router.query.storeId}`);
@@ -34,17 +34,19 @@ function Feed() {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isUpdated]);
   return (
     <>
       <Box mt={1} p={5}>
         <StoreNavigator />
-        <FeedModal />
+        <FeedModal isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
         <Grid container>
           {list?.length ? (
             list.map((element) => (
               <Grid item sm={4}>
                 <FeedCard
+                  isUpdated={isUpdated}
+                  setIsUpdated={setIsUpdated}
                   description={element.description}
                   imageUrl={element.imageUrl}
                   id={element.id}

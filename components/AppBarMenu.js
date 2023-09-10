@@ -54,6 +54,14 @@ export default function CustomizedMenus() {
       >
         <MenuItem
           onClick={() => {
+            router.push("/checkout");
+          }}
+          disableRipple
+        >
+          Order Details
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
             router.push("/users");
           }}
           disableRipple

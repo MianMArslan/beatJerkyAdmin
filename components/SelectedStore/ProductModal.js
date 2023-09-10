@@ -14,7 +14,7 @@ import { UPLOAD_FORM_DATA } from "@/services/httpClient";
 import { useRouter } from "next/router";
 import { AppContext } from "@/context/appContext";
 
-const ProductModal = () => {
+const ProductModal = ({ isUpdated, setIsUpdated }) => {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState(Array(4).fill(null));
   const [productName, setProductName] = useState("");
@@ -39,19 +39,23 @@ const ProductModal = () => {
       });
 
       const response = await UPLOAD_FORM_DATA("/products", formData);
+      console.log(
+        "🚀 ~ file: ProductModal.js:42 ~ addProduct ~ response:",
+        response
+      );
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error("Failed to add product");
       }
       setOpen(false);
+      setIsUpdated(!isUpdated);
       setIsLoading(false);
-      const responseData = await response.json();
-      return responseData;
     } catch (error) {
       console.error("Error adding product:", error);
-      throw error;
+
       setOpen(false);
       setIsLoading(false);
+      throw error;
     }
   };
 
@@ -237,6 +241,7 @@ const ProductModal = () => {
             fullWidth
             onClick={handleSave}
             disabled={isSaveButtonDisabled}
+            style={buttonStyle}
           >
             Save
           </Button>

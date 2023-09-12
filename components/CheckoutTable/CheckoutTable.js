@@ -7,7 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { GET } from "@/services/httpClient";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { GET, UPDATE } from "@/services/httpClient"; // Import your UPDATE function
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Import the ExpandMoreIcon
 
 const columns = [
   { id: "productName", label: "Product Name", minWidth: 120 },
@@ -19,22 +23,114 @@ const columns = [
   {
     id: "productPrice",
     label: "Product Price",
-    minWidth: 120,
+    minWidth: 100,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => "$" + value.toLocaleString("en-US"),
   },
   {
     id: "productDiscount",
     label: "Product Discount",
     minWidth: 120,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toLocaleString("en-US") + "%",
   },
-  { id: "OrderId", label: "Order ID", minWidth: 120 },
-  { id: "orderStatus", label: "Order Status", minWidth: 120 },
+  {
+    id: "OrderId",
+    label: "Order ID",
+    minWidth: 120,
+  },
+  {
+    id: "orderStatus",
+    label: "Order Status",
+    minWidth: 120,
+    align: "left",
+    format: (value, row, updateOrderStatus) => (
+      <OrderStatusButton
+        value={value}
+        row={row}
+        updateOrderStatus={updateOrderStatus}
+      />
+    ),
+  },
 ];
 
-// Replace this with your actual data fetching logic
+const OrderStatusButton = ({ value, row, updateOrderStatus }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    try {
+      // Make an HTTP PUT request to update the order status
+      // await UPDATE(`/checkout/${row.OrderId}`, { orderStatus: newStatus });
+
+      // Assuming you have updated the order status in the backend successfully,
+      // update the local data state to reflect the change
+      updateOrderStatus(row, newStatus);
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    } finally {
+      handleClose();
+    }
+  };
+
+  return (
+    <div>
+      <Button
+        variant="text"
+        onClick={handleClick}
+        sx={{
+          color: "white",
+          textTransform: "none",
+          padding: 0, // Remove padding
+          "& .MuiButton-endIcon": {
+            marginLeft: 0, // Adjust the icon margin
+          },
+        }}
+        endIcon={<ExpandMoreIcon />}
+      >
+        {value}
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1c1c1c",
+          },
+        }}
+      >
+        <MenuItem onClick={() => handleStatusChange("Pending")}>
+          Pending
+        </MenuItem>
+        <MenuItem onClick={() => handleStatusChange("Delivered")}>
+          Delivered
+        </MenuItem>
+        <MenuItem onClick={() => handleStatusChange("Approved")}>
+          Approved
+        </MenuItem>
+        <MenuItem onClick={() => handleStatusChange("Cancelled")}>
+          Cancelled
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
 
 export default function CheckoutTable() {
   const fetchDataFromDatabase = async () => {
@@ -51,6 +147,31 @@ export default function CheckoutTable() {
       return [];
     }
   };
+
+  const updateOrderStatus = async (row, newStatus) => {
+    try {
+      // Make an HTTP PUT request to update the order status
+      await UPDATE(
+        `/checkout/?orderId=${row.OrderId}&orderStatus=${newStatus}`
+      );
+
+      // Assuming you have updated the order status in the backend successfully,
+      // update the local data state to reflect the change
+      setData((prevData) => {
+        const updatedData = [...prevData];
+        const rowIndex = updatedData.findIndex(
+          (r) => r.OrderId === row.OrderId
+        );
+        if (rowIndex !== -1) {
+          updatedData[rowIndex].orderStatus = newStatus;
+        }
+        return updatedData;
+      });
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [data, setData] = React.useState([]);
@@ -103,10 +224,13 @@ export default function CheckoutTable() {
                         <TableCell
                           key={column.id}
                           align={column.align}
-                          sx={{ color: "white" }}
+                          sx={{
+                            color: "white",
+                            padding: "10px",
+                          }}
                         >
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
+                          {column.format
+                            ? column.format(value, row, updateOrderStatus)
                             : value}
                         </TableCell>
                       );
@@ -123,6 +247,20 @@ export default function CheckoutTable() {
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              style: {
+                backgroundColor: "#1c1c1c",
+              },
+            },
+            sx: {
+              "& ul": {
+                backgroundColor: "#1c1c1c",
+              },
+            },
+          },
+        }}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         sx={{
@@ -130,13 +268,6 @@ export default function CheckoutTable() {
           backgroundColor: "black",
         }}
       />
-      <style>
-        {`
-          .css-1vdlcvx-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
-            background-color: #262626 !important;
-          }
-        `}
-      </style>
     </Paper>
   );
 }

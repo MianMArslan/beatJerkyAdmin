@@ -10,6 +10,8 @@ export default function Stores() {
 
   const [list, setList] = useState(null);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isImageUpdated, setIsImageUpdated] = useState(false);
+
   const { storeCategoriesList, setStoreCategoriesList } =
     useContext(AppContext);
   const buttonStyle = {
@@ -38,7 +40,7 @@ export default function Stores() {
   };
   useEffect(() => {
     fetchData();
-  }, [isUpdated]);
+  }, [isUpdated, isImageUpdated]);
   return (
     <Box mt={5} p={5}>
       <StoreModal isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
@@ -54,6 +56,8 @@ export default function Stores() {
               justifyContent={"center"}
             >
               <StoreCard
+                isImageUpdated={isImageUpdated}
+                setIsImageUpdated={setIsImageUpdated}
                 isUpdated={isUpdated}
                 setIsUpdated={setIsUpdated}
                 storeName={element.storeName}

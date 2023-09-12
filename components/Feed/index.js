@@ -34,7 +34,7 @@ function Feed() {
   };
   useEffect(() => {
     fetchData();
-  }, [isUpdated]);
+  }, [isUpdated, router.query.storeId]);
   return (
     <>
       <Box mt={1} p={5}>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,6 +7,7 @@ import { Box, CardActionArea, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DELETE } from "@/services/httpClient";
+
 export default function ActionAreaCard({
   description,
   isUpdated,
@@ -16,6 +17,9 @@ export default function ActionAreaCard({
 }) {
   const router = useRouter();
   const userData = JSON.parse(localStorage.getItem("userData"));
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
   async function deleteFeed() {
     try {
       const response = await DELETE(
@@ -24,13 +28,18 @@ export default function ActionAreaCard({
       setIsUpdated(!isUpdated);
     } catch (error) {}
   }
+
+  const handleCardClick = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <Card
       sx={{
         mt: "20px",
         borderRadius: "10px",
         width: 350,
-        height: 250,
+        height: "auto",
         transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
           transform: "scale(1.05)",
@@ -38,6 +47,7 @@ export default function ActionAreaCard({
         },
         backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
       }}
+      onClick={handleCardClick}
     >
       <CardActionArea>
         <CardMedia
@@ -50,7 +60,15 @@ export default function ActionAreaCard({
           alt="green iguana"
         />
         <CardContent sx={{ padding: "5px" }}>
-          <Typography gutterBottom variant="h6">
+          <Typography
+            variant="body1"
+            component="div"
+            sx={{
+              overflow: isExpanded ? "visible" : "hidden",
+              whiteSpace: isExpanded ? "normal" : "nowrap",
+              textOverflow: isExpanded ? "auto" : "ellipsis",
+            }}
+          >
             {description}
           </Typography>
         </CardContent>

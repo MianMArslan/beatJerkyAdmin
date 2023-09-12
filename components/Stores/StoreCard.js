@@ -26,6 +26,8 @@ export default function ActionAreaCard({
   id,
   isUpdated,
   setIsUpdated,
+  isImageUpdated,
+  setIsImageUpdated,
 }) {
   const [isEditing, setIsEditing] = React.useState(false);
   const [storeName, setStoreName] = React.useState(initialStoreName);
@@ -92,15 +94,14 @@ export default function ActionAreaCard({
               `/stores/updateImage/${id}`,
               formData
             );
-            // Assuming you have the correct endpoint path and the server is running
 
             if (response.status === 200) {
-              // Image updated successfully, you may want to reload the card or update the image URL.
+              setIsImageUpdated(!isImageUpdated);
               console.log("Image updated successfully");
-              // You can update the image in your UI here.
             } else {
               console.error("Failed to update image");
             }
+            setIsImageUpdated(!isImageUpdated);
           } catch (error) {
             console.error("Error updating image:", error);
           }

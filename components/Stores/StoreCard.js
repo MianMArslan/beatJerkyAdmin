@@ -142,6 +142,8 @@ export default function ActionAreaCard({
                 open: true,
                 message: "Image updated successfully",
               });
+              setIsLoading(false);
+              setIsUpdated(!isUpdated);
             } else {
               setSnackbarState({
                 severity: "error",
@@ -149,6 +151,7 @@ export default function ActionAreaCard({
                 message: "Failed to update image",
               });
               console.error("Failed to update image");
+              setIsLoading(false);
             }
             setIsImageUpdated(!isImageUpdated);
           } catch (error) {
@@ -158,10 +161,11 @@ export default function ActionAreaCard({
               message: `Error updating image: ${error}`,
             });
             console.error("Error updating image:", error);
+            setIsLoading(false);
           }
         }
       });
-      setIsUpdated(!isUpdated);
+
       fileInput.click();
     } catch (error) {
       setSnackbarState({

@@ -7,6 +7,7 @@ import { Box, CardActionArea, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DELETE } from "@/services/httpClient";
+import { AppContext } from "@/context/appContext";
 
 export default function ActionAreaCard({
   description,
@@ -22,8 +23,8 @@ export default function ActionAreaCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   async function deleteFeed() {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const response = await DELETE(
         `/feed?userId=${userData.userId}&feedId=${id}`
       );
@@ -35,6 +36,7 @@ export default function ActionAreaCard({
       });
       setIsUpdated(!isUpdated);
     } catch (error) {
+      setIsLoading(true);
       setSnackbarState({
         severity: "error",
         open: true,

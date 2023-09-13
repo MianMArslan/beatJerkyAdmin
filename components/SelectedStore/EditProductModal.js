@@ -25,6 +25,11 @@ const EditProductModal = ({ open, onClose, initialProductData, onSave }) => {
       storeId: initialProductData.storeId,
     });
   }, [initialProductData]);
+  const buttonStyle = {
+    backgroundImage: "linear-gradient(to right, #b716d8, #d126b0)",
+    color: "white",
+    fontWeight: "bold",
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -109,7 +114,7 @@ const EditProductModal = ({ open, onClose, initialProductData, onSave }) => {
         <Divider sx={{ margin: "16px 0", background: "white" }} />
         <Button
           variant="contained"
-          color="primary"
+          style={buttonStyle}
           fullWidth
           onClick={handleSave}
           // Disable the button if any required field is empty

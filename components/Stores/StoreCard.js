@@ -116,6 +116,7 @@ export default function ActionAreaCard({
     setIsLoading(true);
 
     try {
+      setIsLoading(true);
       // Open a file input dialog
       const fileInput = document.createElement("input");
       fileInput.type = "file";
@@ -127,6 +128,7 @@ export default function ActionAreaCard({
           formData.append("storeImage", file);
 
           try {
+            setIsLoading(true);
             const response = await UPLOAD_FORM_DATA(
               `/stores/updateImage/${id}`,
               formData

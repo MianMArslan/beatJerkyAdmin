@@ -19,6 +19,7 @@ import { DELETE, GET, UPDATE, UPLOAD_FORM_DATA } from "@/services/httpClient";
 import { useRouter } from "next/router"; // Import the useRouter
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import axios from "axios";
+import { AppContext } from "@/context/appContext";
 export default function ActionAreaCard({
   storeName: initialStoreName,
   storeDescription: initialStoreDescription,
@@ -29,6 +30,8 @@ export default function ActionAreaCard({
   isImageUpdated,
   setIsImageUpdated,
 }) {
+  const { isLoading, setIsLoading, setSnackbarState } =
+    React.useContext(AppContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [storeName, setStoreName] = React.useState(initialStoreName);
   const [storeDescription, setStoreDescription] = React.useState(
@@ -42,42 +45,76 @@ export default function ActionAreaCard({
   };
 
   const handleSaveClick = async () => {
+    setIsLoading(true);
     try {
       const response = await UPDATE(`/stores/${id}`, {
         storeName,
         storeDescription,
       });
-      // You can handle successful save and close the dialog here.
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "store updated successfully",
+      });
       setIsEditing(false);
       setIsUpdated(!isUpdated);
     } catch (error) {
-      // Handle the error
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to updated store",
+      });
     }
+    setIsLoading(false);
   };
 
   const handleDeleteClick = async () => {
+    setIsLoading(true);
+
     // Call the onDelete callback to trigger the delete action
     try {
       const response = await GET(`/products/${id}`);
       if (!response?.products?.length) {
         const resp = await DELETE(`/stores/${id}`);
         setIsUpdated(!isUpdated);
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Store deleted successfully",
+        });
+      } else {
+        setSnackbarState({
+          severity: "warning",
+          open: true,
+          message: "First Delete Store Products",
+        });
       }
     } catch (error) {
-      console.error("Failed to fetch songs:", error);
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to delete store",
+      });
     }
+    setIsLoading(false);
+
     // onDelete(id);
   };
 
   const handleCardClick = () => {
     // Check if the card is in edit mode, and prevent the click event
+    setIsLoading(true);
+
     if (!isEditing) {
       router.push(
         `/selectedStore/products?storeId=${id}&&storeName=${storeName}&&storeImage=${storeImage}`
       );
+      setIsLoading(false);
     }
   };
   const handleImageUpdate = async () => {
+    setIsLoading(true);
+
     try {
       // Open a file input dialog
       const fileInput = document.createElement("input");
@@ -98,11 +135,26 @@ export default function ActionAreaCard({
             if (response.status === 200) {
               setIsImageUpdated(!isImageUpdated);
               console.log("Image updated successfully");
+              setSnackbarState({
+                severity: "success",
+                open: true,
+                message: "Image updated successfully",
+              });
             } else {
+              setSnackbarState({
+                severity: "error",
+                open: true,
+                message: "Failed to update image",
+              });
               console.error("Failed to update image");
             }
             setIsImageUpdated(!isImageUpdated);
           } catch (error) {
+            setSnackbarState({
+              severity: "error",
+              open: true,
+              message: `Error updating image: ${error}`,
+            });
             console.error("Error updating image:", error);
           }
         }
@@ -110,8 +162,14 @@ export default function ActionAreaCard({
       setIsUpdated(!isUpdated);
       fileInput.click();
     } catch (error) {
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: `Error creating file input: ${error}`,
+      });
       console.error("Error creating file input:", error);
     }
+    setIsLoading(false);
   };
 
   return (

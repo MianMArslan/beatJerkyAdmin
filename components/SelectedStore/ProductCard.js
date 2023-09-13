@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -15,7 +15,9 @@ import EditProductModal from "./EditProductModal";
 import { DELETE, UPDATE } from "@/services/httpClient";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { AppContext } from "@/context/appContext";
 export default function ActionAreaCard({ details, isUpdated, setIsUpdated }) {
+  const { isLoading, setIsLoading, setSnackbarState } = useContext(AppContext);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const settings = {
     dots: true,
@@ -36,13 +38,13 @@ export default function ActionAreaCard({ details, isUpdated, setIsUpdated }) {
     }
   }
 
-  // Modify the image URLs here
   const modifiedProductImages = productImages.map(
     (image) =>
       `${process.env.NEXT_PUBLIC_BASE_URL}${image?.replace("public", "")}`
   );
   const handleEditProduct = async (updatedProductData) => {
-    // Handle updating the product data in your application state or API
+    setIsLoading(true);
+
     console.log("Updated product data:", updatedProductData);
     try {
       const response = await UPDATE(`/products`, {
@@ -53,25 +55,35 @@ export default function ActionAreaCard({ details, isUpdated, setIsUpdated }) {
         productId: updatedProductData.productId,
         storeId: updatedProductData.storeId,
       });
+      setIsLoading(false);
       setIsUpdated(!isUpdated);
     } catch (error) {
       console.log(
         "🚀 ~ file: ProductCard.js:54 ~ handleEditProduct ~ error:",
         error
       );
+      setIsLoading(false);
     }
   };
 
   async function handleDelete(id) {
+    setIsLoading(true);
     try {
       const response = await DELETE(`/products/${id}`);
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Product Deleted Successfully",
+      });
       setIsUpdated(!isUpdated);
     } catch (error) {
-      console.log(
-        "🚀 ~ file: ProductCard.js:67 ~ handleDelete ~ error:",
-        error
-      );
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to delete product",
+      });
     }
+    setIsLoading(false);
   }
 
   return (

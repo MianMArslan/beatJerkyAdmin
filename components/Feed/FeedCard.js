@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -15,18 +15,33 @@ export default function ActionAreaCard({
   imageUrl,
   id,
 }) {
+  const { isLoading, setIsLoading, setSnackbarState } = useContext(AppContext);
   const router = useRouter();
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const [isExpanded, setIsExpanded] = useState(false);
 
   async function deleteFeed() {
+    setIsLoading(true);
     try {
       const response = await DELETE(
         `/feed?userId=${userData.userId}&feedId=${id}`
       );
+      setIsLoading(false);
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Feed deleted successfully",
+      });
       setIsUpdated(!isUpdated);
-    } catch (error) {}
+    } catch (error) {
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to create store",
+      });
+      setIsLoading(false);
+    }
   }
 
   const handleCardClick = () => {

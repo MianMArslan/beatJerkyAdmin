@@ -24,6 +24,8 @@ const ProductModal = ({ isUpdated, setIsUpdated }) => {
   const router = useRouter();
   const { setIsLoading, setSnackbarState } = useContext(AppContext);
   const addProduct = async (productData, imageFiles) => {
+    setIsLoading(true);
+
     try {
       const formData = new FormData();
 
@@ -45,16 +47,31 @@ const ProductModal = ({ isUpdated, setIsUpdated }) => {
       );
 
       if (!response) {
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Failed to add product",
+        });
         throw new Error("Failed to add product");
       }
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "store updated successfully",
+      });
       setOpen(false);
       setIsUpdated(!isUpdated);
       setIsLoading(false);
     } catch (error) {
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Error adding product:",
+      });
       console.error("Error adding product:", error);
 
       setOpen(false);
-      setIsLoading(false);
+
       throw error;
     }
   };
@@ -77,6 +94,7 @@ const ProductModal = ({ isUpdated, setIsUpdated }) => {
         message: "Product added successfully",
       });
       handleClose();
+      setIsLoading(false);
     } catch (error) {
       console.error("Error adding product:", error);
       setSnackbarState({
@@ -84,6 +102,7 @@ const ProductModal = ({ isUpdated, setIsUpdated }) => {
         open: true,
         message: "Error adding product",
       });
+      setIsLoading(false);
     }
   };
 

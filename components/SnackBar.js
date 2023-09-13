@@ -13,9 +13,11 @@ const GlobalSnackbar = () => {
     let backgroundColor = "";
 
     if (snackbarState.severity === "error") {
-      backgroundColor = "#f44336"; // Red color for error severity
+      backgroundColor = "#f44336";
     } else if (snackbarState.severity === "success") {
-      backgroundColor = "#4caf50"; // Green color for success severity
+      backgroundColor = "#4caf50";
+    } else if (snackbarState.severity === "warning") {
+      backgroundColor = "#d18400";
     }
 
     return {

@@ -12,6 +12,7 @@ import {
   TextField,
   Button,
   Box,
+  Chip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete"; // Import the DeleteIcon
@@ -184,7 +185,7 @@ export default function ActionAreaCard({
         mt: "20px",
         borderRadius: "10px",
         width: 350,
-        height: isEditing ? 300 : 250,
+        minHeight: isEditing ? 320 : 270,
         transition: "transform 0.3s, box-shadow 0.3s",
         "&:hover": {
           transform: "scale(1.05)",
@@ -208,12 +209,10 @@ export default function ActionAreaCard({
         <CardContent sx={{ padding: "5px" }}>
           {!isEditing ? (
             <>
-              <Typography gutterBottom variant="h6">
-                {storeName}
-              </Typography>
-              <Typography variant="body2" mt={-1}>
-                {storeDescription}
-              </Typography>
+              <Box display={"flex"} flexDirection={"column"}>
+                <Chip label={storeName} />
+                <Chip label={storeDescription} />
+              </Box>
             </>
           ) : (
             <Box

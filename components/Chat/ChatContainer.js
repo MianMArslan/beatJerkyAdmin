@@ -32,7 +32,9 @@ function ChatContainer() {
   const router = useRouter();
   async function getAllChat() {
     if (!selectedUser) return;
-    const response = await GET(`/adminChat/messages?userId=${selectedUser}`);
+    const response = await GET(
+      `/adminChat/fetchChatWithStore?userId=${selectedUser}&storeId=${router.query.storeId}`
+    );
     setChat(response.data);
     setIsLoading(false);
     scrollToBottom();

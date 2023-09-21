@@ -75,7 +75,14 @@ export default function ActionAreaCard({
     // Call the onDelete callback to trigger the delete action
     try {
       const response = await GET(`/products/${id}`);
-      if (!response?.products?.length) {
+      const feedResponse = await GET(`/feed/storeFeed?storeId=${id}`);
+
+      console.log(
+        "🚀 ~ file: StoreCard.js:80 ~ handleDeleteClick ~ feedResponse:",
+        feedResponse
+      );
+
+      if (!response?.products?.length && !feedResponse?.data?.length) {
         const resp = await DELETE(`/stores/${id}`);
         setIsUpdated(!isUpdated);
         setSnackbarState({
@@ -87,7 +94,7 @@ export default function ActionAreaCard({
         setSnackbarState({
           severity: "warning",
           open: true,
-          message: "First Delete Store Products",
+          message: "First Delete Store Products And Store Feeds",
         });
       }
     } catch (error) {

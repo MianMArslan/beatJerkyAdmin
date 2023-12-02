@@ -67,7 +67,7 @@ export default function MediaControlCard({
               src={`${process.env.NEXT_PUBLIC_BASE_URL}${song.songPath?.replace(
                 "public",
                 ""
-              )}`} // Replace with the actual audio URL
+              )}`}
             />
           )}
         </Box>

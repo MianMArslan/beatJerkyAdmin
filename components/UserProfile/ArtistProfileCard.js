@@ -9,15 +9,6 @@ export default function ArtistProfileCard({
   setArtistProfileId,
   setOpenSongModal,
 }) {
-  useEffect(() => {
-    if (data)
-      console.log(
-        "🚀 ~ file: ArtistProfileCard.js:8 ~ ArtistProfileCard ~ data:",
-        process.env.NEXT_PUBLIC_BASE_URL +
-          data[4].picture?.replace("public", "")
-      );
-    // .replace(/\\/g, "/")}
-  }, [data]);
   return (
     <Grid container spacing={2}>
       {data?.map((item, index) => (

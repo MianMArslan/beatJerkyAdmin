@@ -46,7 +46,10 @@ export default function ArtistProfileCard({ data }) {
                       }${item.videoUrl?.replace("public", "")}`}
                     />
                   )}
-                  <Chip label={item.description || "N/A"} />
+                  <Chip
+                    sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                    label={item.description || "N/A"}
+                  />
                 </CardContent>
               </Card>
             </Grid>

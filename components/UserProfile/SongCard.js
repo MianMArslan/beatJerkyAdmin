@@ -34,13 +34,22 @@ export default function MediaControlCard({
         <CardContent sx={{ flex: "1 0 auto", pb: 0 }}>
           <Box display="flex" flexDirection="column" gap={1}>
             <Tooltip title={song?.songName}>
-              <Chip label={"Song Name:" + song?.songName} />
+              <Chip
+                sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                label={"Song Name:" + song?.songName}
+              />
             </Tooltip>
             <Tooltip title={song?.artistName}>
-              <Chip label={"Artist Name:" + song?.artistName} />
+              <Chip
+                sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                label={"Artist Name:" + song?.artistName}
+              />
             </Tooltip>
             <Tooltip title={song?.bandName}>
-              <Chip label={"Band Name:" + song?.bandName} />
+              <Chip
+                sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                label={"Band Name:" + song?.bandName}
+              />
             </Tooltip>
           </Box>
         </CardContent>

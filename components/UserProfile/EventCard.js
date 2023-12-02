@@ -45,14 +45,23 @@ export default function ArtistProfileCard({ data }) {
                   }}
                 >
                   <Tooltip title={item?.artistName}>
-                    <Chip label={"Artist Name:" + item.artistName || "N/A"} />
+                    <Chip
+                      sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                      label={"Artist Name:" + item.artistName || "N/A"}
+                    />
                   </Tooltip>
                   <Tooltip title={item.eventName}>
-                    <Chip label={"Event Name:" + item.eventName || "N/A"} />
+                    <Chip
+                      sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                      label={"Event Name:" + item.eventName || "N/A"}
+                    />
                   </Tooltip>
 
                   <Tooltip title={item.eventPlace}>
-                    <Chip label={"Event Place:" + item.eventPlace || "N/A"} />
+                    <Chip
+                      sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                      label={"Event Place:" + item.eventPlace || "N/A"}
+                    />
                   </Tooltip>
                 </CardContent>
               </Card>

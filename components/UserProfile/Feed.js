@@ -38,6 +38,7 @@ export default function ArtistProfileCard({ data }) {
                   }}
                 >
                   <Chip
+                    sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
                     label={item.description || "No description available"}
                   />
                 </CardContent>

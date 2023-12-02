@@ -49,7 +49,10 @@ export default function ArtistProfileCard({
                     minHeight: 200,
                   }}
                 >
-                  <Chip label={item.artistName || "N/A"} />
+                  <Chip
+                    sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                    label={item.artistName || "N/A"}
+                  />
                 </CardContent>
               </Card>
             </Grid>

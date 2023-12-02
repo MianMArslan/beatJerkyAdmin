@@ -34,7 +34,11 @@ export default function SimpleBackdrop() {
   return (
     <div>
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          backgroundColor: "black",
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open={isLoading}
       >
         {/* Use the logo image and apply CSS animations */}

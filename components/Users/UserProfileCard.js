@@ -135,13 +135,13 @@ export default function UserProfileCard(props) {
           Following: {response?.data.following} | Followers:{" "}
           {response?.data.follower}
         </Typography>
-        <Box display="flex">
+        <Box display="flex" gap={2}>
           {data.isDeleted ? (
             <Button
               onClick={handleActivateUser}
               style={{ backgroundColor: "#00d438", marginTop: "15px" }}
             >
-              <Typography sx={{ fontSize: "12px", transform: "none" }}>
+              <Typography sx={{ fontSize: "9px", transform: "none" }}>
                 Activate User
               </Typography>
             </Button>
@@ -151,19 +151,19 @@ export default function UserProfileCard(props) {
               onClick={handleSuspendUser}
               style={{ backgroundColor: "#c20000", marginTop: "15px" }}
             >
-              <Typography sx={{ fontSize: "12px", transform: "none" }}>
+              <Typography sx={{ fontSize: "9px", transform: "none" }}>
                 Suspend User
               </Typography>
             </Button>
           )}
           <Button
-            variant="contained"
+            style={{ backgroundColor: "#017a7a", marginTop: "15px" }}
             size="small"
             onClick={() => {
               router.push(`/user-profile/?userId=${data.id}`);
             }}
           >
-            <Typography sx={{ fontSize: "12px", transform: "none" }}>
+            <Typography sx={{ fontSize: "9px", transform: "none" }}>
               View Profile
             </Typography>
           </Button>

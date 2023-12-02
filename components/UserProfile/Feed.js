@@ -18,6 +18,8 @@ export default function ArtistProfileCard({ data }) {
               backgroundImage: `url(${
                 process.env.NEXT_PUBLIC_BASE_URL
               }${item.imageUrl.replace("public", "")})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               "&:hover": {
                 transform: "scale(1.05)",
                 boxShadow: "0 4px 20px rgba(0, 123, 255, 0.3)",

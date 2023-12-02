@@ -22,7 +22,7 @@ export default function ArtistProfileCard({ data }) {
 
               backgroundImage: `url(${
                 process.env.NEXT_PUBLIC_BASE_URL
-              }${item.picture?.replace("public", "")})`,
+              }${item.picturePath?.replace("public", "")})`,
 
               "&:hover": {
                 transform: "scale(1.05)",

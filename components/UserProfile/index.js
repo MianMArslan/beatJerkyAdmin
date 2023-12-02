@@ -8,6 +8,7 @@ import ArtistProfileCard from "./ArtistProfileCard";
 import EventCard from "./EventCard";
 import SongModal from "./SongsModal";
 import VideoCard from "./VideoCard";
+import axios from "axios";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -42,8 +43,24 @@ const MyPage = () => {
   }
 
   async function fetchAllData() {
+    let videosResponse;
     try {
-      const videosResponse = await GET(`/video?userId=${userId}`);
+      // Make a GET request
+      videosResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/video?userId=${userId}`
+      );
+
+      // Access the data from the response
+      const data = response.data;
+
+      // Do something with the data
+      console.log(data);
+    } catch (error) {
+      // Handle errors
+      console.error("Error fetching data:", error);
+    }
+    try {
+      // const videosResponse = await GET(`/video?userId=${userId}`);
 
       const feedResponse = await GET(`/feed?userId=${userId}`);
       const artistProfilesResponse = await GET(

@@ -2,13 +2,15 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Avatar, Button, LinearProgress } from "@mui/material";
+import { Avatar, Box, Button, LinearProgress } from "@mui/material";
 import { Chip } from "@mui/material";
-import { AppContext } from "../context/appContext";
+import { AppContext } from "../../context/appContext";
 import { useContext } from "react";
-import { UPDATE, GET } from "../services/httpClient";
+import { UPDATE, GET } from "../../services/httpClient";
+import { useRouter } from "next/router";
 
 export default function UserProfileCard(props) {
+  const router = useRouter();
   const {
     isLoading,
     setIsLoading,
@@ -16,7 +18,7 @@ export default function UserProfileCard(props) {
     isUsersUpdated,
     setIsUsersUpdated,
   } = useContext(AppContext);
-  const { data } = props;
+  const { data, setUserId, setOpen } = props;
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
@@ -129,26 +131,43 @@ export default function UserProfileCard(props) {
             data.firstName ? ` ${data.firstName}  ${data.lastName}` : "N/A"
           }
         />
-        <Typography variant="body2">
+        <Typography>
           Following: {response?.data.following} | Followers:{" "}
           {response?.data.follower}
         </Typography>
-
-        {data.isDeleted ? (
+        <Box display="flex">
+          {data.isDeleted ? (
+            <Button
+              onClick={handleActivateUser}
+              style={{ backgroundColor: "#00d438", marginTop: "15px" }}
+            >
+              <Typography sx={{ fontSize: "12px", transform: "none" }}>
+                Activate User
+              </Typography>
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              onClick={handleSuspendUser}
+              style={{ backgroundColor: "#c20000", marginTop: "15px" }}
+            >
+              <Typography sx={{ fontSize: "12px", transform: "none" }}>
+                Suspend User
+              </Typography>
+            </Button>
+          )}
           <Button
-            onClick={handleActivateUser}
-            style={{ backgroundColor: "#00d438", marginTop: "15px" }}
+            variant="contained"
+            size="small"
+            onClick={() => {
+              router.push(`/user-profile/?userId=${data.id}`);
+            }}
           >
-            <Typography>Activate User</Typography>
+            <Typography sx={{ fontSize: "12px", transform: "none" }}>
+              View Profile
+            </Typography>
           </Button>
-        ) : (
-          <Button
-            onClick={handleSuspendUser}
-            style={{ backgroundColor: "#c20000", marginTop: "15px" }}
-          >
-            <Typography>Suspend User</Typography>
-          </Button>
-        )}
+        </Box>
       </CardContent>
     </Card>
   );

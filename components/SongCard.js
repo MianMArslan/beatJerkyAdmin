@@ -112,7 +112,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
     setEditSongData(null);
   };
 
- const handleFileUpload = (event) => {
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file); // Store the selected image file in the state
   };
@@ -142,7 +142,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         });
       };
 
-   setIsUpdated(!isUpdated);
+      setIsUpdated(!isUpdated);
       setOpenModal(false); // Close the modal after uploading the image
     } catch (error) {
       setSnackbarState({
@@ -174,11 +174,12 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
   return (
     <Card
       sx={{
-        
         width: 250,
         height: 200,
         //  src={`${process.env.NEXT_PUBLIC_BASE_URL}${data.profileImg?.replace('public', '')}`}
-                  backgroundImage:`url(${process.env.NEXT_PUBLIC_BASE_URL}${data.coverImageURL?.replace('public', '')})`,
+        backgroundImage: `url(${
+          process.env.NEXT_PUBLIC_BASE_URL
+        }${data.coverImageURL?.replace("public", "")})`,
 
         // backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/cover-photos/${data.coverImageURL})`,
         backgroundSize: "cover",
@@ -190,8 +191,14 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
         },
       }}
     >
-      <Card sx={{ width: "inherit", height: "inherit",paddingRight:"8px", background: `${gradient}` }}>
-    
+      <Card
+        sx={{
+          width: "inherit",
+          height: "inherit",
+          paddingRight: "8px",
+          background: `${gradient}`,
+        }}
+      >
         {isEditing ? (
           <div>
             <TextField
@@ -210,8 +217,7 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
               label="Singer"
               variant="standard"
               size="small"
-              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)", }}
-   
+              sx={{ backgroundColor: "rgba(1, 2, 46, 0.3)" }}
               value={editedData.singer || ""}
               onChange={handleInputChange}
             />
@@ -227,30 +233,58 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
             />
           </div>
         ) : (
-          <div style={{marginTop:"20px",marginLeft:"10px",display:"flex",flexDirection:"column",justifyContent:"center"}}>
-           
-<Chip  sx={{
-    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px" 
-  }} label={`Song Title: ${data.title}`} />
-             
-             
-               
-            <Chip  sx={{
-    backgroundColor: "rgba(63, 1, 74, 0.5)",marginTop:"5px"  
-  }} label={` Singer: ${data.singer}`} />
-     <Chip  sx={{
-    backgroundColor: "rgba(63, 1, 74, 0.5)", marginTop:"5px" 
-  }} label={`Description: ${data.descriptionOfSong}`} />
-           </div>
+          <div
+            style={{
+              marginTop: "20px",
+              marginLeft: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Chip
+              sx={{
+                backgroundColor: "rgba(63, 1, 74, 0.5)",
+                marginTop: "5px",
+              }}
+              label={`Song Title: ${data.title}`}
+            />
+
+            <Chip
+              sx={{
+                backgroundColor: "rgba(63, 1, 74, 0.5)",
+                marginTop: "5px",
+              }}
+              label={` Singer: ${data.singer}`}
+            />
+            <Chip
+              sx={{
+                backgroundColor: "rgba(63, 1, 74, 0.5)",
+                marginTop: "5px",
+              }}
+              label={`Description: ${data.descriptionOfSong}`}
+            />
+          </div>
         )}
-      
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "15px",
+          }}
+        >
           {isEditing ? (
             <>
-              <Button variant="contained" fullWidth size="small" color="success" onClick={handleSave}>
+              <Button
+                variant="contained"
+                fullWidth
+                size="small"
+                color="success"
+                onClick={handleSave}
+              >
                 Update
               </Button>
-          
             </>
           ) : (
             <></>
@@ -258,7 +292,13 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
           {!isEditing && (
             <>
               {!isEditing && (
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "15px",
+                  }}
+                >
                   <IconButton onClick={handleEdit}>
                     <EditNoteIcon fontSize="large" />
                   </IconButton>
@@ -273,11 +313,10 @@ export default function MultiActionAreaCard({ data, update, setUpdate }) {
             </>
           )}
         </div>
-  
       </Card>
 
       {/* Image Upload Modal */}
-          <Modal open={openModal} onClose={handleCloseModal}>
+      <Modal open={openModal} onClose={handleCloseModal}>
         <div
           style={{
             position: "absolute",

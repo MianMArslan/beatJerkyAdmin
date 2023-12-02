@@ -1,4 +1,4 @@
-import Users from "../components/Users/index.js";
+import UserProfile from "../components/UserProfile";
 import AppBar from "../components/AppBar.js";
 import SecurePage from "@/components/SecurePage.js";
 function users() {
@@ -6,7 +6,7 @@ function users() {
     <>
       <SecurePage>
         <AppBar />
-        <Users />
+        <UserProfile />
       </SecurePage>
     </>
   );

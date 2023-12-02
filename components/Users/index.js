@@ -3,13 +3,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Button, Container, Grid, IconButton, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context/appContext";
-import { GET } from "../services/httpClient";
+import { AppContext } from "../../context/appContext";
+import { GET } from "../../services/httpClient";
 import UserProfileCard from "./UserProfileCard.js";
 
 function Users() {
   const [search, setSearch] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const {
     isLoading,
@@ -18,8 +18,11 @@ function Users() {
     isUsersUpdated,
     setIsUsersUpdated,
   } = useContext(AppContext);
-
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [list, setList] = useState([]);
+  const [userId, setUserId] = useState(null);
+
   const handleSearch = () => {
     router.push({
       pathname: router.route,
@@ -95,7 +98,11 @@ function Users() {
         <Grid container spacing={1}>
           {list.map((data) => (
             <Grid mt="50px" item xs={12} sm={4} md={3} lg={3} key={data}>
-              <UserProfileCard data={data} />
+              <UserProfileCard
+                data={data}
+                setUserId={setUserId}
+                setOpen={setOpen}
+              />
             </Grid>
           ))}
         </Grid>

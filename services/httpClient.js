@@ -5,15 +5,13 @@ export async function GET(url, params) {
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
     headers: {
       "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
     },
     withCredentials: true,
   });
   try {
-    console.log(
-      "🚀 ~ file: httpClient.js:6 ~ GET ~ process.env.NEXT_PUBLIC_BASE_URL:",
-      process.env.NEXT_PUBLIC_BASE_URL
-    );
-
     const response = await httpClient.get(url, params);
     return response.data;
   } catch (error) {

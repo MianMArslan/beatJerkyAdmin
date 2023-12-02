@@ -5,7 +5,11 @@ import Typography from "@mui/material/Typography";
 import { Chip, Grid } from "@mui/material";
 import { GET } from "@/services/httpClient";
 
-export default function ArtistProfileCard({}) {
+export default function ArtistProfileCard({ userId }) {
+  console.log(
+    "🚀 ~ file: VideoCard.js:9 ~ ArtistProfileCard ~ userId:",
+    userId
+  );
   const [data, setData] = useState([]);
   async function fetchVideoRecords() {
     const response = await GET(`/video?userId=${userId}`);

@@ -122,7 +122,7 @@ const MyPage = () => {
       <TabPanel value={tabValue} index={2}>
         {/* Content for Songs Tab */}
         <p>Videos Content</p>
-        <VideoCard data={videos} />
+        <VideoCard userId={router.query.userId} />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
         {/* Content for Events Tab */}

@@ -49,12 +49,12 @@ const MyPage = () => {
       videosResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/video?userId=${userId}`
       );
+      console.log(
+        "🚀 ~ file: index.js:52 ~ fetchAllData ~ videosResponse:",
+        videosResponse
+      );
 
       // Access the data from the response
-      const data = response.data;
-
-      // Do something with the data
-      console.log(data);
     } catch (error) {
       // Handle errors
       console.error("Error fetching data:", error);
@@ -73,7 +73,7 @@ const MyPage = () => {
       setEvents(EventsResponse.data);
       setArtistPRofiles(artistProfilesResponse.data);
       setFeeds(feedResponse.data);
-      setVideos(videosResponse.data);
+      setVideos(videosResponse.data.data);
       console.log(
         "🚀🚀🚀PASS🚀🚀🚀PASS ~ file: index.js:31 ~ fetchAllData ~ artistProfilesResponse:",
         artistProfilesResponse,

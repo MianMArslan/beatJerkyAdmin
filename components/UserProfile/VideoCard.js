@@ -13,12 +13,13 @@ export default function ArtistProfileCard({ userId }) {
   const [data, setData] = useState([]);
   async function fetchVideoRecords() {
     const response = await GET(`/video?userId=${userId}`);
+    console.log(
+      "🚀 ~ file: VideoCard.js:12 ~ fetchVideoRecords ~ response:",
+      response
+    );
+
+    setData(response.data);
   }
-  console.log(
-    "🚀 ~ file: VideoCard.js:12 ~ fetchVideoRecords ~ response:",
-    response
-  );
-  setData(response.data);
 
   useEffect(() => {
     fetchVideoRecords();

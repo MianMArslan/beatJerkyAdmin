@@ -35,7 +35,9 @@ export default function ArtistProfileCard({ data }) {
                   style={{
                     width: "100%",
                     height: "100%",
-                    backgroundImage: `url(${item.imageUrl})`, // Use imageUrl from data
+                    backgroundImage: `url(${
+                      process.env.NEXT_PUBLIC_BASE_URL
+                    }${item.imageUrl.replace("public", "")})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}

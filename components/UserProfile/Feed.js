@@ -15,6 +15,9 @@ export default function ArtistProfileCard({ data }) {
               margin: "10px",
               transition: "transform 0.3s, box-shadow 0.3s",
               backgroundColor: "#b716d8",
+              backgroundImage: `url(${
+                process.env.NEXT_PUBLIC_BASE_URL
+              }${item.imageUrl.replace("public", "")})`,
               "&:hover": {
                 transform: "scale(1.05)",
                 boxShadow: "0 4px 20px rgba(0, 123, 255, 0.3)",
@@ -30,19 +33,6 @@ export default function ArtistProfileCard({ data }) {
                 minHeight: 200,
               }}
             >
-              {item.imageUrl && (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundImage: `url(${
-                      process.env.NEXT_PUBLIC_BASE_URL
-                    }${item.imageUrl.replace("public", "")})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
-              )}
               <Typography variant="body2" component="p">
                 {item.description || "No description available"}
               </Typography>

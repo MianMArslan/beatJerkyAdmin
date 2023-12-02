@@ -47,7 +47,7 @@ const MyPage = () => {
     try {
       // Make a GET request
       videosResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/video?userId=${userId}`
+        `http://beatjerky.com/api/video?userId=${userId}`
       );
       console.log(
         "🚀 ~ file: index.js:52 ~ fetchAllData ~ videosResponse:",

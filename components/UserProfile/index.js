@@ -8,7 +8,6 @@ import ArtistProfileCard from "./ArtistProfileCard";
 import EventCard from "./EventCard";
 import SongModal from "./SongsModal";
 import VideoCard from "./VideoCard";
-import axios from "axios";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -43,25 +42,7 @@ const MyPage = () => {
   }
 
   async function fetchAllData() {
-    let videosResponse;
     try {
-      // Make a GET request
-      videosResponse = await axios.get(
-        `http://beatjerky.com/api/video?userId=${userId}`
-      );
-      console.log(
-        "🚀 ~ file: index.js:52 ~ fetchAllData ~ videosResponse:",
-        videosResponse
-      );
-
-      // Access the data from the response
-    } catch (error) {
-      // Handle errors
-      console.error("Error fetching data:", error);
-    }
-    try {
-      // const videosResponse = await GET(`/video?userId=${userId}`);
-
       const feedResponse = await GET(`/feed?userId=${userId}`);
       const artistProfilesResponse = await GET(
         `/artist-profile/byUserId?userId=${userId}`
@@ -73,7 +54,7 @@ const MyPage = () => {
       setEvents(EventsResponse.data);
       setArtistPRofiles(artistProfilesResponse.data);
       setFeeds(feedResponse.data);
-      setVideos(videosResponse.data.data);
+      // setVideos(videosResponse.data);
       console.log(
         "🚀🚀🚀PASS🚀🚀🚀PASS ~ file: index.js:31 ~ fetchAllData ~ artistProfilesResponse:",
         artistProfilesResponse,

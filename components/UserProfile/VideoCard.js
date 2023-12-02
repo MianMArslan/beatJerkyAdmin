@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Chip, Grid } from "@mui/material";
+import { GET } from "@/services/httpClient";
 
-export default function ArtistProfileCard({ data }) {
+export default function ArtistProfileCard({}) {
+  const [data, setData] = useState([]);
+  async function fetchVideoRecords() {
+    const response = await GET(`/video?userId=${userId}`);
+  }
   console.log(
-    "🚀 ~ file: ArtistProfileCard.js:8 ~ ArtistProfileCard ~ data:",
-    data
+    "🚀 ~ file: VideoCard.js:12 ~ fetchVideoRecords ~ response:",
+    response
   );
+  setData(response.data);
+
+  useEffect(() => {
+    fetchVideoRecords();
+  }, []);
+
   return (
     <Grid container spacing={2}>
       {data?.map((item, index) => (

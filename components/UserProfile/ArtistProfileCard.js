@@ -22,6 +22,7 @@ export default function ArtistProfileCard({
               maxWidth: 250,
               margin: "10px",
               transition: "transform 0.3s, box-shadow 0.3s",
+              backgroundColor: "#b716d8", // Set the default card color
 
               backgroundImage: `url(${
                 process.env.NEXT_PUBLIC_BASE_URL
@@ -42,7 +43,7 @@ export default function ArtistProfileCard({
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-end",
                 minHeight: 200,
               }}
             >

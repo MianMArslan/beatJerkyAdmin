@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { Container, Tabs, Tab, Box } from "@mui/material";
 import { GET } from "@/services/httpClient";
@@ -8,6 +8,7 @@ import ArtistProfileCard from "./ArtistProfileCard";
 import EventCard from "./EventCard";
 import SongModal from "./SongsModal";
 import VideoCard from "./VideoCard";
+import { AppContext } from "@/context/appContext";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -24,6 +25,8 @@ const TabPanel = (props) => {
 };
 
 const MyPage = () => {
+  const { isLoading, setIsLoading, setSnackbarState } = useContext(AppContext);
+
   const [tabValue, setTabValue] = useState(0);
   const [artistProfiles, setArtistPRofiles] = useState(null);
   const [events, setEvents] = useState(null);
@@ -42,7 +45,9 @@ const MyPage = () => {
   }
 
   async function fetchAllData() {
+    setIsLoading(true);
     try {
+      const videoResponse = await GET(`/video/?userId=${userId}`);
       const feedResponse = await GET(`/feed?userId=${userId}`);
       const artistProfilesResponse = await GET(
         `/artist-profile/byUserId?userId=${userId}`
@@ -54,17 +59,11 @@ const MyPage = () => {
       setEvents(EventsResponse.data);
       setArtistPRofiles(artistProfilesResponse.data);
       setFeeds(feedResponse.data);
-      // setVideos(videosResponse.data);
-      console.log(
-        "🚀🚀🚀PASS🚀🚀🚀PASS ~ file: index.js:31 ~ fetchAllData ~ artistProfilesResponse:",
-        artistProfilesResponse,
-        EventsResponse,
-        feedResponse,
-        videosResponse
-      );
+      setVideos(videoResponse.data);
     } catch (error) {
       console.log("🚀 ~ file: index.js:31 ~ fetchAllData ~ error:", error);
     }
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -106,13 +105,9 @@ const MyPage = () => {
         />
       </Tabs>
       <TabPanel value={tabValue} index={0}>
-        {/* Content for User Feed Tab */}
-        <p>User Feed Content</p>
         <Feed data={feed} />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
-        {/* Content for Artist Profile Tab */}
-        <p>Artist Profile Content</p>
         <ArtistProfileCard
           data={artistProfiles}
           setArtistProfileId={setArtistProfileId}
@@ -120,13 +115,9 @@ const MyPage = () => {
         />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
-        {/* Content for Songs Tab */}
-        <p>Videos Content</p>
-        <VideoCard userId={router.query.userId} />
+        <VideoCard data={videos} />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
-        {/* Content for Events Tab */}
-        <p>Events Content</p>
         <EventCard data={events} />
       </TabPanel>
     </Container>

@@ -3,10 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Chip, Grid, IconButton, Modal } from "@mui/material";
+import { Box, Chip, Grid, IconButton, Modal } from "@mui/material";
 import { GET } from "@/services/httpClient";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SongCard from "./SongCard";
 const SongModal = ({ isOpen, onClose, artistProfileId }) => {
   const [isPlayingArray, setIsPlayingArray] = useState([]);
   const [songsData, setSongsData] = useState([]);
@@ -46,73 +47,40 @@ const SongModal = ({ isOpen, onClose, artistProfileId }) => {
     >
       <Card
         sx={{
+          pt: 2,
           bgcolor: "#2e2e2e",
-          maxWidth: "800px",
-          height: "500px",
+          width: "40%",
+          height: "60%",
           overflowY: "auto",
-          borderRadius: "18px",
+
           minWidth: "250px",
         }}
       >
         <div style={{ width: "80%", height: "80%", margin: "auto" }}>
           <Grid container spacing={5}>
-            {songsData?.map((song, index) => (
-              <Grid item key={index} md={4} sm={6} xs={12}>
-                <Card
-                  sx={{
-                    width: 200,
-                    height: 200,
-                    margin: "10px",
-                    backgroundColor: "#b716d8",
-                    transition: "transform 0.3s, box-shadow 0.3s",
-                    "&:hover": {
-                      transform: "scale(1.05)",
-                      boxShadow: "0 4px 20px rgba(0, 123, 255, 0.3)",
-                    },
-                  }}
+            {songsData?.length ? (
+              songsData?.map((song, index) => (
+                <Grid
+                  item
+                  key={index}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                  <CardContent
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      minHeight: 200,
-                      backgroundImage: `url(${
-                        process.env.NEXT_PUBLIC_BASE_URL
-                      }${song.picturePath?.replace("public", "")})`, // Background image
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    <Typography variant="body2" component="p">
-                      {song.description || "No description available"}
-                    </Typography>
-                    <Chip label={song.songName || "N/A"} />
-                    <IconButton
-                      variant="contained"
-                      onClick={() => handlePlayPause(index)}
-                    >
-                      {isPlayingArray[index] ? (
-                        <PauseIcon />
-                      ) : (
-                        <PlayArrowIcon />
-                      )}
-                    </IconButton>
-                    {isPlayingArray[index] && (
-                      <audio
-                        style={{ display: "none" }}
-                        autoPlay={isPlayingArray[index]}
-                        controls
-                        src={`${
-                          process.env.NEXT_PUBLIC_BASE_URL
-                        }${song.songPath?.replace("public", "")}`} // Replace with the actual audio URL
-                      />
-                    )}
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+                  <SongCard
+                    song={song}
+                    handlePlayPause={handlePlayPause}
+                    index={index}
+                    isPlayingArray={isPlayingArray}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <Box mt={10}>
+                <Typography variant="h6">No Record Found</Typography>
+              </Box>
+            )}
           </Grid>
         </div>
       </Card>

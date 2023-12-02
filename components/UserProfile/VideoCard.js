@@ -5,26 +5,7 @@ import Typography from "@mui/material/Typography";
 import { Chip, Grid } from "@mui/material";
 import { GET } from "@/services/httpClient";
 
-export default function ArtistProfileCard({ userId }) {
-  console.log(
-    "🚀 ~ file: VideoCard.js:9 ~ ArtistProfileCard ~ userId:",
-    userId
-  );
-  const [data, setData] = useState([]);
-  async function fetchVideoRecords() {
-    const response = await GET(`/video/?userId=${userId}`);
-    console.log(
-      "🚀 ~ file: VideoCard.js:12 ~ fetchVideoRecords ~ response:",
-      response
-    );
-
-    setData(response.data);
-  }
-
-  useEffect(() => {
-    fetchVideoRecords();
-  }, []);
-
+export default function ArtistProfileCard({ data }) {
   return (
     <Grid container spacing={2}>
       {data?.map((item, index) => (
@@ -48,15 +29,15 @@ export default function ArtistProfileCard({ userId }) {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-between",
                 minHeight: 200,
               }}
             >
               {item.videoUrl && (
                 <video
                   controls
-                  width="100%"
-                  height="100%"
+                  width="220px"
+                  height="110px"
                   style={{ objectFit: "cover", borderRadius: "8px" }}
                   src={`${
                     process.env.NEXT_PUBLIC_BASE_URL

@@ -31,13 +31,11 @@ export default function ArtistProfileCard({ data }) {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-end",
                 minHeight: 200,
               }}
             >
-              <Typography variant="body2" component="p">
-                {item.description || "No description available"}
-              </Typography>
+              <Chip label={item.description || "No description available"} />
             </CardContent>
           </Card>
         </Grid>

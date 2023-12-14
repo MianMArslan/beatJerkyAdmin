@@ -11,14 +11,25 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Chip, Tooltip } from "@mui/material";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function MediaControlCard({
   song,
   handlePlayPause,
   index,
   isPlayingArray,
+  categoriesList,
 }) {
+  const [category, setCategory] = useState();
   const theme = useTheme();
+
+  useEffect(() => {
+    let a = categoriesList.find(
+      (element) => (element.id = song.songCategoryId)
+    );
+    setCategory(a.categoryName);
+  }, []);
 
   return (
     <Card
@@ -49,6 +60,12 @@ export default function MediaControlCard({
               <Chip
                 sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
                 label={"Band Name:" + song?.bandName}
+              />
+            </Tooltip>{" "}
+            <Tooltip title={song?.bandName}>
+              <Chip
+                sx={{ backgroundColor: "rgba(63, 1, 74, 0.5)" }}
+                label={"Category:" + category}
               />
             </Tooltip>
           </Box>

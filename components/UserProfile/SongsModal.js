@@ -22,7 +22,7 @@ const SongModal = ({ isOpen, onClose, artistProfileId }) => {
   }
   async function fetchCategories() {
     try {
-      const responseOfCategory = await GET("/category");
+      const responseOfCategory = await GET("/musicStyle");
       setCategoriesList(responseOfCategory.data);
       console.log(
         "🚀🚀🚀🚀🚀🚀🚀🚀 ~ file: SongsModal.js:16 ~ fetchAllSongs ~ songsResponse:",

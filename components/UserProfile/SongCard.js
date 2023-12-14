@@ -13,6 +13,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import { Chip, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
+import { GET } from "@/services/httpClient";
 
 export default function MediaControlCard({
   song,
@@ -25,10 +26,28 @@ export default function MediaControlCard({
   const theme = useTheme();
 
   useEffect(() => {
-    let a = categoriesList.find(
-      (element) => (element.id = song.songCategoryId)
-    );
-    setCategory(a.categoryName);
+    async function fetchCategories() {
+      try {
+        const responseOfCategory = await GET(
+          `/musicStyle/byId/?id=${song.songCategoryId}`
+        );
+        setCategory(
+          responseOfCategory?.data?.musicStyleName
+            ? responseOfCategory?.data?.musicStyleName
+            : "N/A"
+        );
+        console.log(
+          "🚀🚀🚀🚀🚀🚀🚀🚀 ~ file: SongsModal.js:16 ~ fetchAllSongs ~ songsResponse:",
+          responseOfCategory
+        );
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: SongCard.js:39 ~ fetchCategories ~ error:",
+          error
+        );
+      }
+    }
+    fetchCategories();
   }, []);
 
   return (

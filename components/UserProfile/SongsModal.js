@@ -11,7 +11,6 @@ import SongCard from "./SongCard";
 const SongModal = ({ isOpen, onClose, artistProfileId }) => {
   const [isPlayingArray, setIsPlayingArray] = useState([]);
   const [songsData, setSongsData] = useState([]);
-  const [categoriesList, setCategoriesList] = useState([]);
 
   async function fetchAllSongs() {
     const songsResponse = await GET(
@@ -20,20 +19,9 @@ const SongModal = ({ isOpen, onClose, artistProfileId }) => {
     setSongsData(songsResponse.data);
     setIsPlayingArray(new Array(songsResponse.data.length).fill(false));
   }
-  async function fetchCategories() {
-    try {
-      const responseOfCategory = await GET("/musicStyle");
-      setCategoriesList(responseOfCategory.data);
-      console.log(
-        "🚀🚀🚀🚀🚀🚀🚀🚀 ~ file: SongsModal.js:16 ~ fetchAllSongs ~ songsResponse:",
-        responseOfCategory
-      );
-    } catch (error) {}
-  }
+
   useEffect(() => {
     if (artistProfileId) fetchAllSongs();
-
-    fetchCategories();
   }, [artistProfileId]);
 
   const handlePlayPause = (index) => {
@@ -75,7 +63,6 @@ const SongModal = ({ isOpen, onClose, artistProfileId }) => {
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
                   <SongCard
-                    categoriesList={categoriesList}
                     song={song}
                     handlePlayPause={handlePlayPause}
                     index={index}
